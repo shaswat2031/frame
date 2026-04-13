@@ -13,14 +13,14 @@ const VirtualTryOn = dynamic(
 export default function TryOnPage() {
   return (
     <main className="min-h-screen bg-[#05070a] text-cream">
-      
+
       <div className="pt-32 pb-20 px-6">
         <div className="container mx-auto">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="inline-flex items-center gap-2 text-gold/60 hover:text-gold transition-colors text-[10px] uppercase tracking-widest mb-12 group"
           >
-            <ArrowLeft size={12} className="group-hover:-translate-x-1 transition-transform" /> 
+            <ArrowLeft size={12} className="group-hover:-translate-x-1 transition-transform" />
             Back to Boutique
           </Link>
 
@@ -29,21 +29,21 @@ export default function TryOnPage() {
               <span className="text-teal uppercase tracking-[0.4em] text-[10px] font-bold mb-4 block">AR Design Studio</span>
               <h1 className="text-5xl md:text-7xl font-serif italic tracking-tight mb-4">Mirror of Discovery</h1>
               <p className="text-cream/40 text-xs leading-relaxed max-w-sm uppercase tracking-wider font-bold">
-                REAL-TIME BIOMETRIC MAPPING REIMAGINED. EXPLORE THE CHASHAMA AESTHETIC ON YOUR OWN FEATURES.
+                REAL-TIME BIOMETRIC MAPPING REIMAGINED. EXPLORE THE EYECONIC AESTHETIC ON YOUR OWN FEATURES.
               </p>
             </div>
-            
+
             <div className="flex bg-[#0A0E1A] p-2 rounded-2xl border border-gold/10">
-               <div className="flex items-center gap-3 px-6 py-3 border-r border-gold/10">
-                 <ShieldCheck className="text-teal" size={16} />
-                 <span className="text-[10px] uppercase tracking-widest font-bold text-teal">
-                   Biometric Secure
-                 </span>
-               </div>
-               <div className="flex items-center gap-3 px-6 py-3">
-                 <Sparkles className="text-gold" size={16} />
-                 <div className="text-[10px] uppercase tracking-widest text-gold font-bold">MediaPipe v2.0</div>
-               </div>
+              <div className="flex items-center gap-3 px-6 py-3 border-r border-gold/10">
+                <ShieldCheck className="text-teal" size={16} />
+                <span className="text-[10px] uppercase tracking-widest font-bold text-teal">
+                  Biometric Secure
+                </span>
+              </div>
+              <div className="flex items-center gap-3 px-6 py-3">
+                <Sparkles className="text-gold" size={16} />
+                <div className="text-[10px] uppercase tracking-widest text-gold font-bold">MediaPipe v2.0</div>
+              </div>
             </div>
           </header>
 
@@ -51,7 +51,7 @@ export default function TryOnPage() {
             {/* Ambient Background Glows */}
             <div className="absolute -top-20 -left-20 w-64 h-64 bg-gold/10 blur-[100px] rounded-full pointer-events-none" />
             <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-teal/10 blur-[100px] rounded-full pointer-events-none" />
-            
+
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -83,7 +83,7 @@ export default function TryOnPage() {
           </div>
         </div>
       </div>
-      
+
       <Footer />
     </main>
   );

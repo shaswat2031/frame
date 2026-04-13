@@ -33,12 +33,12 @@ export default function AboutStrip() {
           <div className="space-y-6">
             <span className="text-teal uppercase tracking-[0.4em] text-[10px]">Our Legacy</span>
             <h2 className="text-5xl font-serif text-cream leading-tight">
-              Crafting Clarity 
+              Crafting Clarity
               <br />
               <span className="text-gold italic">Since 1987</span>
             </h2>
             <p className="text-cream/50 text-lg font-light leading-relaxed">
-              CHASHAMA by Punjab Optical represents over three decades of optical excellence. We don&apos;t just sell frames; we curate vision as a lifestyle choice. From the heart of Punjab to the world&apos;s luxury hubs.
+              EYECONIC by Punjab Optical represents over three decades of optical excellence. We don&apos;t just sell frames; we curate vision as a lifestyle choice. From the heart of Punjab to the world&apos;s luxury hubs.
             </p>
           </div>
 

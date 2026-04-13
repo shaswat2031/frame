@@ -38,14 +38,14 @@ export default function Footer() {
           <div className="space-y-8">
             <div className="flex flex-col">
               <span className="text-2xl font-serif text-gold tracking-[0.3em] font-light leading-none">
-                CHASHAMA
+                EYECONIC
               </span>
               <span className="text-[9px] uppercase tracking-widest text-teal mt-1">
                 Punjab Optical · Est. 1987
               </span>
             </div>
             <p className="text-cream/40 text-sm leading-relaxed max-w-xs">
-              Defining the cutting edge of luxury vision care for over three decades. 
+              Defining the cutting edge of luxury vision care for over three decades.
               The ultimate destination for premium eyewear.
             </p>
             <div className="flex space-x-6">
@@ -58,13 +58,13 @@ export default function Footer() {
           </div>
 
           {/* Nav Cols */}
-          <FooterNav 
-            title="Shop" 
-            links={['Men\'s Frames', 'Women\'s Frames', 'Sunglasses', 'Luxury Brands', 'New Arrivals']} 
+          <FooterNav
+            title="Shop"
+            links={['Men\'s Frames', 'Women\'s Frames', 'Sunglasses', 'Luxury Brands', 'New Arrivals']}
           />
-          <FooterNav 
-            title="Company" 
-            links={['Our Heritage', 'Eye Examination', 'Lens Experts', 'Store Locator', 'Careers']} 
+          <FooterNav
+            title="Company"
+            links={['Our Heritage', 'Eye Examination', 'Lens Experts', 'Store Locator', 'Careers']}
           />
 
           {/* Newsletter Col */}
@@ -72,8 +72,8 @@ export default function Footer() {
             <h4 className="text-[10px] uppercase tracking-[0.2em] text-gold font-bold">Join the Circle</h4>
             <p className="text-cream/40 text-sm">Subscribe to receive stylistic updates and vision health news.</p>
             <div className="relative">
-              <input 
-                type="email" 
+              <input
+                type="email"
                 placeholder="EMAIL ADDRESS"
                 className="w-full bg-transparent border-b border-gold/20 py-4 text-[10px] uppercase tracking-widest text-cream focus:border-gold outline-none transition-colors"
               />
@@ -86,9 +86,9 @@ export default function Footer() {
 
         <div className="pt-12 border-t border-gold/5 flex flex-col md:flex-row justify-between items-center gap-8">
           <p className="text-[10px] text-cream/30 uppercase tracking-[0.2em]">
-            © 2026 CHASHAMA Punjab Optical. All Rights Reserved.
+            © 2026 EYECONIC Punjab Optical. All Rights Reserved.
           </p>
-          
+
           <div className="flex items-center space-x-8">
             {['Visa', 'Mastercard', 'Easypaisa', 'JazzCash'].map((method) => (
               <span key={method} className="text-[9px] text-cream/20 uppercase tracking-widest font-bold">

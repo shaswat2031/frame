@@ -23,7 +23,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata = {
-  title: 'CHASHAMA — Punjab Optical | Premium Eyewear',
+  title: 'EYECONIC — Punjab Optical | Premium Eyewear',
   description: "Curating the world's finest frames since 1987. Where precision meets personal expression.",
 };
 

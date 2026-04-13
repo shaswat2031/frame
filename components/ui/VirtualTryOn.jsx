@@ -3,16 +3,16 @@ import { useRef, useEffect, useState } from 'react'
 import { useFaceMesh } from '@/hooks/useFaceMesh'
 
 const FRAMES = [
-  { id: 'aviator',     name: 'Aviator',     src: '/frames/aviator.svg' },
-  { id: 'wayfarer',    name: 'Wayfarer',    src: '/frames/wayfarer.svg' },
-  { id: 'round',       name: 'Round',       src: '/frames/round.svg' },
-  { id: 'cateye',      name: 'Cat Eye',     src: '/frames/cateye.svg' },
+  { id: 'aviator', name: 'Aviator', src: '/frames/aviator.svg' },
+  { id: 'wayfarer', name: 'Wayfarer', src: '/frames/wayfarer.svg' },
+  { id: 'round', name: 'Round', src: '/frames/round.svg' },
+  { id: 'cateye', name: 'Cat Eye', src: '/frames/cateye.svg' },
   { id: 'rectangular', name: 'Rectangular', src: '/frames/rectangular.svg' },
 ]
 
 export default function VirtualTryOn() {
-  const videoRef    = useRef(null)
-  const canvasRef   = useRef(null)
+  const videoRef = useRef(null)
+  const canvasRef = useRef(null)
   const [activeFrame, setActiveFrame] = useState(FRAMES[0])
   const [tint, setTint] = useState('clear')
   const landmarks = useFaceMesh(videoRef)
@@ -47,19 +47,19 @@ export default function VirtualTryOn() {
     }
 
     // Get the 3 key points
-    const noseBridge  = landmarks[168]
-    const leftTemple  = landmarks[234]
+    const noseBridge = landmarks[168]
+    const leftTemple = landmarks[234]
     const rightTemple = landmarks[454]
 
     // Mirror the X coordinates for landmarks too since we mirror the video
-    const noseX     = (1 - noseBridge.x) * W
-    const noseY     = noseBridge.y * H
+    const noseX = (1 - noseBridge.x) * W
+    const noseY = noseBridge.y * H
     const faceWidth = Math.abs(rightTemple.x - leftTemple.x) * W
 
     // Frame is 400px wide in SVG — scale to face width with padding
-    const scale     = (faceWidth * 1.35) / 400
-    const frameW    = 400 * scale
-    const frameH    = 150 * scale
+    const scale = (faceWidth * 1.35) / 400
+    const frameW = 400 * scale
+    const frameH = 150 * scale
 
     // Position: center horizontally on nose, slight vertical offset up
     const drawX = noseX - frameW / 2
@@ -83,7 +83,7 @@ export default function VirtualTryOn() {
     const canvas = canvasRef.current
     if (!canvas) return
     const link = document.createElement('a')
-    link.download = 'my-chashama-look.png'
+    link.download = 'my-EYECONIC-look.png'
     link.href = canvas.toDataURL('image/png')
     link.click()
   }
@@ -114,10 +114,10 @@ export default function VirtualTryOn() {
           height={480}
           className="w-full h-full object-cover rounded-none border border-[#C9A84C]/20"
         />
-        
+
         {/* Save button overlay */}
         {landmarks && (
-          <button 
+          <button
             onClick={saveScreenshot}
             className="absolute bottom-4 right-4 bg-[#C9A84C] text-[#0A0E1A] px-4 py-2 text-[10px] uppercase tracking-widest font-bold hover:bg-white transition-colors z-40"
           >

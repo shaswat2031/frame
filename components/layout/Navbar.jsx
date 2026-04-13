@@ -42,15 +42,14 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled ? 'glass-nav py-3' : 'bg-transparent py-6'
-      }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'glass-nav py-3' : 'bg-transparent py-6'
+        }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex flex-col group">
           <span className="text-2xl font-serif text-gold tracking-[0.3em] font-light leading-none">
-            CHASHAMA
+            EYECONIC
           </span>
           <span className="text-[9px] uppercase tracking-widest text-teal mt-1">
             Punjab Optical · Est. 1987
@@ -90,9 +89,9 @@ export default function Navbar() {
           <button className="hidden sm:block border border-gold px-5 py-2 text-[10px] uppercase tracking-widest text-gold hover:bg-gold hover:text-navy transition-all duration-300">
             Book Eye Test
           </button>
-          
+
           {/* Mobile Menu Toggle */}
-          <button 
+          <button
             className="lg:hidden text-gold"
             onClick={() => setIsMobileMenuOpen(true)}
           >

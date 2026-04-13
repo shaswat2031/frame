@@ -131,7 +131,7 @@ export default function SpecFrameLoader() {
               className="mt-12 flex flex-col items-center"
             >
               <h1 className="text-4xl md:text-5xl font-serif text-gold tracking-[0.5em] font-light leading-none">
-                CHASHAMA
+                EYECONIC
               </h1>
               <div className="flex items-center mt-4 space-x-4">
                 <span className="h-[1px] w-8 bg-gold/30" />
