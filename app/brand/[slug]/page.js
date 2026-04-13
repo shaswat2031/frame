@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import TryOnModal from '@/components/ui/TryOnModal';
 import { useParams } from 'next/navigation';
 
 const BRANDS = {
@@ -21,6 +22,7 @@ export default function BrandPage() {
 
   const [visionStage, setVisionStage] = useState(0); // 0: Init, 1: Scanning, 2: Calibrating, 3: Completed
   const [mounted, setMounted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -222,6 +224,19 @@ export default function BrandPage() {
                     >
                       <div className="w-40 h-1 bg-gold/50 rounded-full" />
                     </motion.div>
+                    
+                    {/* Hover Try-On */}
+                    <div className="absolute inset-0 bg-navy/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsModalOpen(true);
+                        }}
+                        className="bg-cream text-navy px-6 py-2 text-[10px] uppercase tracking-widest font-bold hover:bg-gold transition-colors"
+                      >
+                        Try Virtually
+                      </button>
+                    </div>
                   </div>
                   <div className="flex justify-between items-start relative z-10">
                     <div>
@@ -237,7 +252,12 @@ export default function BrandPage() {
           </div>
         </section>
         <Footer />
-      </motion.div>
-    </main>
+       </motion.div>
+       
+       <TryOnModal 
+         isOpen={isModalOpen} 
+         onClose={() => setIsModalOpen(false)} 
+       />
+     </main>
   );
 }

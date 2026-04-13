@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Link from 'next/link';
 import LensMachineDemo from '@/components/ui/LensMachineDemo';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -77,12 +78,13 @@ export default function Hero() {
             >
               Explore Collection →
             </button>
-            <button
+            <Link
+              href="/try-on"
               data-cursor="TRY IT"
               className="border border-cream/20 text-cream px-8 py-4 text-xs uppercase tracking-widest font-bold hover:bg-cream hover:text-navy transition-all duration-300"
             >
               Virtual Try-On
-            </button>
+            </Link>
           </motion.div>
 
           <motion.div variants={itemVariants} className="flex items-center space-x-12 pt-8 border-t border-gold/10">

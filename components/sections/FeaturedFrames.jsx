@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import TryOnModal from '@/components/ui/TryOnModal';
 
 const filters = ['All', 'Men', 'Women', 'Kids', 'Sport', 'Luxury'];
 
@@ -15,6 +16,7 @@ const products = [
 
 export default function FeaturedFrames() {
   const [activeFilter, setActiveFilter] = useState('All');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <section className="py-24 bg-navy">
@@ -62,7 +64,13 @@ export default function FeaturedFrames() {
 
                 {/* Hover Action */}
                 <div className="absolute inset-0 bg-navy/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <button className="bg-cream text-navy px-6 py-2 text-[10px] uppercase tracking-widest font-bold">
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsModalOpen(true);
+                    }}
+                    className="bg-cream text-navy px-6 py-2 text-[10px] uppercase tracking-widest font-bold hover:bg-gold transition-colors"
+                  >
                     Try Virtually
                   </button>
                 </div>
@@ -88,7 +96,12 @@ export default function FeaturedFrames() {
             </motion.div>
           ))}
         </div>
-      </div>
-    </section>
+       </div>
+
+       <TryOnModal 
+         isOpen={isModalOpen} 
+         onClose={() => setIsModalOpen(false)} 
+       />
+     </section>
   );
 }
