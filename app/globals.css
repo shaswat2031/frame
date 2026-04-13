@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #FCFAF7;
+  --navy-deep: #F5F2ED;
+  --navy-surface: #EBE7E0;
+  --cream: #121418;
+  --cream-warm: #1A1C22;
+  --gold: #A68A3B;
+  --gold-light: #C9A84C;
+  --teal: #337E77;
+  --foreground: #121418;
+  --background: #FCFAF7;
+  --navy-rgb: 252, 250, 247;
+  --gold-rgb: 166, 138, 59;
+}
+
+.dark-mode {
+  --navy: #0A0E1A;
+  --navy-deep: #060810;
+  --navy-surface: #12182B;
+  --cream: #F7F4EF;
+  --cream-warm: #EDE8DF;
+  --gold: #C9A84C;
+  --gold-light: #E8C97A;
+  --teal: #7ECAC3;
+  --foreground: #F7F4EF;
+  --background: #0A0E1A;
+}
+
+@layer base {
+  body {
+    background-color: var(--navy);
+    color: var(--cream);
+    @apply font-sans antialiased;
+    overflow-x: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+
+  ::selection {
+    background-color: rgba(201, 168, 76, 0.3);
+    color: var(--gold);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif;
+  }
+}
+
+@layer utilities {
+  .text-gold-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-gold via-gold-light to-gold-muted;
+  }
+
+  .glass-nav {
+    background-color: rgba(var(--navy-rgb, 10, 14, 26), 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(var(--gold-rgb, 201, 168, 76), 0.1);
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--navy);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  opacity: 0.3;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C9A84C66;
+}
+
+/* Lenis Smooth Scroll */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Custom Cursor Styles */
+.custom-cursor {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+body, a, button, [role="button"] {
+  cursor: none !important;
+}
+
+/* Lens Flare Base */
+.lens-flare-overlay {
+  background: radial-gradient(circle at center, rgba(232, 201, 122, 0.1) 0%, transparent 70%);
+}
+
+/* Marquee Pause */
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
