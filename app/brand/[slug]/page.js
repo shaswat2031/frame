@@ -19,11 +19,21 @@ export default function BrandPage() {
   const { slug } = useParams();
   const brand = BRANDS[slug] || { name: slug.toUpperCase(), bio: "A legacy of precision." };
 
-  const [visionStage, setVisionStage] = useState(0); // 0: Extreme Blur, 1: Lens Applied, 2: Crystallized
+  const [visionStage, setVisionStage] = useState(0); // 0: Init, 1: Scanning, 2: Calibrating, 3: Completed
   const [mounted, setMounted] = useState(false);
-  const [activeLensIndex, setActiveLensIndex] = useState(null);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    
+    // Start automated optical sequence
+    const timers = [
+      setTimeout(() => setVisionStage(1), 800),    // Start Scan
+      setTimeout(() => setVisionStage(2), 2400),   // Calibrate
+      setTimeout(() => setVisionStage(3), 3800)    // Crystallize
+    ];
+
+    return () => timers.forEach(t => clearTimeout(t));
+  }, []);
 
   if (!mounted) return null;
 
@@ -31,159 +41,152 @@ export default function BrandPage() {
     <main className="min-h-screen bg-navy text-cream overflow-hidden">
       <Navbar />
 
-      {/* OPTICAL EXAMINATION OVERLAY */}
-      <AnimatePresence mode="wait">
-        {visionStage < 2 && (
+      {/* AUTOMATED OPTICAL SEQUENCE OVERLAY */}
+      <AnimatePresence>
+        {visionStage < 3 && (
           <motion.div
             key="optical-overlay"
-            initial={{ opacity: 1 }}
             exit={{ 
               opacity: 0,
-              scale: 2,
-              filter: "blur(20px)",
-              transition: { duration: 1, ease: [0.7, 0, 0.3, 1] }
+              scale: 1.5,
+              filter: "blur(40px)",
+              transition: { duration: 1.2, ease: [0.7, 0, 0.3, 1] }
             }}
             className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-navy"
           >
-            {/* Viewfinder Elements */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
-              <div className="absolute top-10 left-10 w-20 h-20 border-t-2 border-l-2 border-gold/20" />
-              <div className="absolute top-10 right-10 w-20 h-20 border-t-2 border-r-2 border-gold/20" />
-              <div className="absolute bottom-10 left-10 w-20 h-20 border-b-2 border-l-2 border-gold/20" />
-              <div className="absolute bottom-10 right-10 w-20 h-20 border-b-2 border-r-2 border-gold/20" />
+            {/* Viewfinder & Optical HUD */}
+            <div className="absolute inset-0 pointer-events-none">
+              {/* Corner Brackets */}
+              <div className="absolute top-12 left-12 w-12 h-12 border-t border-l border-gold/30" />
+              <div className="absolute top-12 right-12 w-12 h-12 border-t border-r border-gold/30" />
+              <div className="absolute bottom-12 left-12 w-12 h-12 border-b border-l border-gold/30" />
+              <div className="absolute bottom-12 right-12 w-12 h-12 border-b border-r border-gold/30" />
               
-              {/* Vertical/Horizontal lines */}
-              <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gold/10" />
-              <div className="absolute left-1/2 top-0 w-[1px] h-full bg-gold/10" />
+              {/* Technical Data Streams */}
+              <div className="absolute top-1/2 left-8 -translate-y-1/2 flex flex-col gap-4">
+                 {[...Array(4)].map((_, i) => (
+                   <motion.div 
+                    key={i}
+                    animate={{ opacity: [0.2, 0.5, 0.2], x: [0, 5, 0] }}
+                    transition={{ duration: 3, delay: i * 0.5, repeat: Infinity }}
+                    className="w-16 h-[1px] bg-gold/20" 
+                   />
+                 ))}
+              </div>
             </div>
 
-            {/* Blurry Background Text (Heritage Reveal) */}
-            <div className="relative">
+            {/* Background Branding (Focusing Title) */}
+            <div className="relative flex items-center justify-center w-full">
               <motion.h1
                 animate={{
-                  filter: visionStage === 0 ? "blur(40px)" : "blur(12px)",
-                  scale: visionStage === 0 ? 0.9 : 1.1,
-                  opacity: visionStage === 0 ? 0.1 : 0.3,
+                  filter: visionStage === 0 ? "blur(60px)" : visionStage === 1 ? "blur(30px)" : "blur(8px)",
+                  scale: visionStage === 0 ? 0.8 : visionStage === 1 ? 0.95 : 1.1,
+                  opacity: visionStage === 0 ? 0.05 : visionStage === 1 ? 0.15 : 0.3
                 }}
-                transition={{ duration: 1.5, ease: "easeOut" }}
-                className="text-[18vw] font-serif italic tracking-tighter text-gold/40 select-none uppercase text-center"
+                transition={{ duration: 1.5, ease: "easeInOut" }}
+                className="text-[20vw] font-serif italic tracking-tighter text-gold select-none uppercase"
               >
                 {brand.name}
               </motion.h1>
 
-              {/* Focus Ring / Lens Effect */}
-              <AnimatePresence>
-                {visionStage === 1 && (
+              {/* Central Lens Element */}
+              <motion.div
+                animate={{
+                  scale: visionStage === 2 ? [1, 1.1, 1] : 1,
+                  opacity: visionStage > 0 ? 1 : 0
+                }}
+                transition={{ duration: 1.5, repeat: visionStage === 2 ? Infinity : 0 }}
+                className="absolute inset-0 flex items-center justify-center z-10"
+              >
+                <div className="relative w-[35vw] h-[35vw] flex items-center justify-center">
+                  {/* Rotating Mechanical Rings */}
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-0 border border-gold/10 rounded-full" 
+                  />
+                  <motion.div 
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-8 border border-gold/20 rounded-full border-dashed" 
+                  />
+                  
+                  {/* The Precision Lens View */}
                   <motion.div
-                    initial={{ scale: 0.5, opacity: 0, rotate: -45 }}
-                    animate={{ scale: 1, opacity: 1, rotate: 0 }}
-                    exit={{ scale: 3, opacity: 0 }}
-                    transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                    className="absolute inset-0 flex items-center justify-center z-10"
-                  >
-                    <div className="w-[30vw] h-[30vw] border-4 border-gold/40 rounded-full flex items-center justify-center relative">
-                      <div className="absolute inset-0 border border-gold/20 rounded-full animate-[spin_10s_linear_infinite]" />
-                      <div className="w-full h-full bg-white/5 backdrop-blur-md rounded-full overflow-hidden flex items-center justify-center">
-                         {/* Clear view through the lens */}
-                         <h2 className="text-4xl font-serif italic text-gold">{brand.name}</h2>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Interaction Panel */}
-            <motion.div
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mt-24 relative z-20 text-center max-w-2xl px-6"
-            >
-              <div className="mb-12 space-y-2">
-                <motion.span
-                  animate={{ opacity: [0.4, 1, 0.4] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="text-[10px] uppercase tracking-[0.5em] text-teal font-bold block"
-                >
-                  {visionStage === 0 ? "Scanning Optical DNA" : "Index Alignment: OK"}
-                </motion.span>
-                <h3 className="text-gold/60 text-[10px] uppercase tracking-widest">
-                  {visionStage === 0 ? "Select refractive index to initiate deep focus" : "Optimal clarity detected. Press to Crystallize."}
-                </h3>
-              </div>
-
-              <div className="flex justify-center gap-8 mb-16">
-                {[1.50, 1.67, 1.74].map((index, i) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      setVisionStage(1);
-                      setActiveLensIndex(index);
+                    animate={{ 
+                      backdropFilter: visionStage === 2 ? "blur(0px)" : "blur(10px)",
+                      backgroundColor: visionStage === 2 ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.02)"
                     }}
-                    className="group relative flex flex-col items-center gap-4"
+                    className="w-full h-full rounded-full flex items-center justify-center overflow-hidden border border-gold/30 shadow-[0_0_50px_rgba(201,168,76,0.1)]"
                   >
-                    <motion.div
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`w-20 h-20 rounded-full border flex items-center justify-center transition-all duration-500 ${
-                        activeLensIndex === index 
-                        ? 'border-gold bg-gold/10' 
-                        : 'border-gold/20 bg-white/5 hover:border-gold/50'
-                      }`}
+                    <motion.h2 
+                       animate={{ opacity: visionStage > 1 ? 1 : 0.3 }}
+                       className="text-4xl md:text-6xl font-serif italic text-gold tracking-widest uppercase"
                     >
-                      <span className={`text-xs font-mono ${activeLensIndex === index ? 'text-gold' : 'text-gold/40'}`}>
-                        {index}
-                      </span>
-                    </motion.div>
-                    <div className="absolute -bottom-8 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      <div className="flex flex-col items-center">
-                         <div className="w-[1px] h-4 bg-gold/50" />
-                         <span className="text-[8px] uppercase tracking-tighter text-gold">Apply Lens</span>
-                      </div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-
-              {visionStage === 1 && (
-                <motion.button
-                  key="crystallize-btn"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(201, 168, 76, 0.2)" }}
-                  onClick={() => setVisionStage(2)}
-                  className="bg-gold text-navy px-16 py-5 rounded-full font-bold uppercase tracking-[0.3em] text-[11px] relative group overflow-hidden"
-                >
-                  <span className="relative z-10">Crystallize Heritage</span>
-                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                </motion.button>
-              )}
-            </motion.div>
-
-            {/* Digital Data Stream (Technical Detail) */}
-            <div className="absolute bottom-10 left-10 hidden lg:block font-mono text-[8px] text-gold/30 space-y-1">
-               <p>REF_ID: {slug?.toUpperCase()}</p>
-               <p>STATUS: {visionStage === 0 ? "CALIBRATING" : "LENS_LOCKED"}</p>
-               <p>VERT_SYNC: ENABLED</p>
+                      {brand.name}
+                    </motion.h2>
+                    
+                    {/* Scanning Line */}
+                    <motion.div 
+                      animate={{ y: ["-150%", "150%"] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                      className="absolute inset-x-0 h-[2px] bg-gold/40 shadow-[0_0_15px_#C9A84C]"
+                    />
+                  </motion.div>
+                </div>
+              </motion.div>
             </div>
-            <div className="absolute bottom-10 right-10 hidden lg:block font-mono text-[8px] text-gold/30 text-right space-y-1">
-               <p>ISO: 100</p>
-               <p>F_STOP: f/1.8</p>
-               <p>SHUTTER: 1/125s</p>
+
+            {/* Bottom Status Feed */}
+            <div className="mt-24 text-center">
+              <div className="inline-flex flex-col items-center">
+                <div className="flex items-center gap-4 mb-3">
+                   <motion.div 
+                    animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                    className="w-2 h-2 bg-teal rounded-full shadow-[0_0_10px_#7ECAC3]" 
+                   />
+                   <span className="text-[10px] uppercase tracking-[0.6em] text-teal font-bold">
+                    {visionStage === 0 ? "Initializing" : visionStage === 1 ? "Optical Scan" : "Phase Lock"}
+                   </span>
+                </div>
+                
+                <div className="h-1 w-64 bg-white/5 rounded-full overflow-hidden mb-4">
+                  <motion.div 
+                    initial={{ width: "0%" }}
+                    animate={{ width: visionStage === 0 ? "20%" : visionStage === 1 ? "60%" : "100%" }}
+                    className="h-full bg-gold shadow-[0_0_10px_rgba(201,168,76,0.5)]"
+                  />
+                </div>
+
+                <div className="flex gap-12 font-mono text-[9px] text-gold/40 uppercase">
+                  <div className="flex flex-col">
+                    <span>Precision</span>
+                    <span className="text-gold">99.8%</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span>Focus</span>
+                    <span className="text-gold">Auto</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span>Index</span>
+                    <span className="text-gold">1.74-HS</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ACTUAL CONTENT (Revealed via focus shift) */}
+      {/* REVEALED CONTENT */}
       <motion.div 
         animate={{
-          filter: visionStage < 2 ? 'blur(60px)' : 'blur(0px)',
-          scale: visionStage < 2 ? 1.05 : 1,
-          opacity: visionStage < 2 ? 0 : 1
+          filter: visionStage < 3 ? 'blur(40px)' : 'blur(0px)',
+          opacity: visionStage < 3 ? 0 : 1,
+          scale: visionStage < 3 ? 1.1 : 1
         }}
-        transition={{ duration: 1.2, ease: [0.7, 0, 0.3, 1] }}
+        transition={{ duration: 1.5, ease: [0.7, 0, 0.3, 1] }}
         className="min-h-screen"
       >
         <section className="pt-40 pb-24 px-6">
@@ -191,13 +194,7 @@ export default function BrandPage() {
             <header className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-12 border-b border-gold/10 pb-12">
               <div className="max-w-2xl">
                 <span className="text-teal uppercase tracking-[0.5em] text-[10px] font-bold mb-4 block">Official Partner</span>
-                <motion.h1 
-                  initial={{ y: 40, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  className="text-7xl md:text-9xl font-serif italic tracking-tighter mb-8"
-                >
-                  {brand.name}
-                </motion.h1>
+                <h1 className="text-7xl md:text-9xl font-serif italic tracking-tighter mb-8">{brand.name}</h1>
                 <p className="text-xl md:text-2xl font-light text-cream/70 leading-relaxed max-w-xl italic">
                   &quot;{brand.bio}&quot;
                 </p>
@@ -208,7 +205,7 @@ export default function BrandPage() {
               </div>
             </header>
 
-            {/* Simulated Grid for Brand Products */}
+            {/* Brand Products Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               {[1, 2, 3, 4, 5, 6].map(i => (
                 <motion.div
@@ -233,8 +230,6 @@ export default function BrandPage() {
                     </div>
                     <span className="text-gold font-mono">$480.00</span>
                   </div>
-                  
-                  {/* Subtle hover background effect */}
                   <div className="absolute inset-0 bg-gradient-to-tr from-gold/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                 </motion.div>
               ))}
