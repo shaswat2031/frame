@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import TryOnModal from '@/components/ui/TryOnModal';
 import { useParams } from 'next/navigation';
@@ -41,7 +40,6 @@ export default function BrandPage() {
 
   return (
     <main className="min-h-screen bg-navy text-cream overflow-hidden">
-      <Navbar />
 
       {/* AUTOMATED OPTICAL SEQUENCE OVERLAY */}
       <AnimatePresence>

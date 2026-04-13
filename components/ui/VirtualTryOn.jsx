@@ -39,10 +39,12 @@ export default function VirtualTryOn() {
     ctx.clearRect(0, 0, W, H)
 
     // Draw mirrored video feed
-    ctx.save()
-    ctx.scale(-1, 1)
-    ctx.drawImage(videoRef.current, -W, 0, W, H)
-    ctx.restore()
+    if (videoRef.current && videoRef.current.readyState >= 2) {
+      ctx.save()
+      ctx.scale(-1, 1)
+      ctx.drawImage(videoRef.current, -W, 0, W, H)
+      ctx.restore()
+    }
 
     // Get the 3 key points
     const noseBridge  = landmarks[168]
@@ -98,6 +100,14 @@ export default function VirtualTryOn() {
 
       {/* Canvas (shows webcam + frame overlay) */}
       <div className="relative aspect-[4/3] overflow-hidden">
+        {/* Loading Indicator */}
+        {!landmarks && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-navy/80 backdrop-blur-sm z-50">
+            <div className="w-10 h-10 border-2 border-gold/20 border-t-gold rounded-full animate-spin mb-4" />
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-bold">Synchronizing Biometrics...</p>
+          </div>
+        )}
+
         <canvas
           ref={canvasRef}
           width={640}
@@ -106,12 +116,14 @@ export default function VirtualTryOn() {
         />
         
         {/* Save button overlay */}
-        <button 
-          onClick={saveScreenshot}
-          className="absolute bottom-4 right-4 bg-[#C9A84C] text-[#0A0E1A] px-4 py-2 text-[10px] uppercase tracking-widest font-bold hover:bg-white transition-colors"
-        >
-          Capture Look
-        </button>
+        {landmarks && (
+          <button 
+            onClick={saveScreenshot}
+            className="absolute bottom-4 right-4 bg-[#C9A84C] text-[#0A0E1A] px-4 py-2 text-[10px] uppercase tracking-widest font-bold hover:bg-white transition-colors z-40"
+          >
+            Capture Look
+          </button>
+        )}
       </div>
 
       {/* Frame selector */}

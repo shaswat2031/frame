@@ -70,23 +70,21 @@
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - High Precision Luxury Styling */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px; /* Ultra-thin for luxury feel */
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--navy);
+  background: var(--navy-deep);
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--gold);
-  opacity: 0.3;
-  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C9A84C66;
+  background: var(--gold-light);
 }
 
 /* Lenis Smooth Scroll */
@@ -131,4 +129,14 @@ body, a, button, [role="button"] {
 /* Marquee Pause */
 .marquee-container:hover .marquee-content {
   animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes hero-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }

@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Sparkles, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
-import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
 const VirtualTryOn = dynamic(
@@ -14,7 +13,6 @@ const VirtualTryOn = dynamic(
 export default function TryOnPage() {
   return (
     <main className="min-h-screen bg-[#05070a] text-cream">
-      <Navbar />
       
       <div className="pt-32 pb-20 px-6">
         <div className="container mx-auto">

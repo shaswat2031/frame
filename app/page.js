@@ -1,4 +1,3 @@
-import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Hero from '@/components/sections/Hero';
 import BrandMarquee from '@/components/sections/BrandMarquee';
@@ -13,7 +12,6 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-navy transition-colors duration-500">
       <SpecFrameLoader />
-      <Navbar />
 
       {/* Hero with Try-On CTA */}
       <section className="relative">

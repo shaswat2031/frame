@@ -28,9 +28,16 @@ export function useFaceMesh(videoRef) {
       }
     })
 
+    let isMounted = true;
+
     const camera = new Camera(videoRef.current, {
       onFrame: async () => {
-        await faceMesh.send({ image: videoRef.current })
+        if (!isMounted || !videoRef.current || videoRef.current.readyState < 2) return;
+        try {
+          await faceMesh.send({ image: videoRef.current });
+        } catch (e) {
+          console.error("FaceMesh Send Error:", e);
+        }
       },
       width: 640,
       height: 480
@@ -41,6 +48,7 @@ export function useFaceMesh(videoRef) {
     camRef.current = camera
 
     return () => {
+      isMounted = false;
       camera.stop()
       faceMesh.close()
     }

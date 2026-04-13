@@ -16,13 +16,28 @@ const navLinks = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [bannerHeight, setBannerHeight] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 80);
     };
+
+    const updateBannerHeight = () => {
+      const banner = document.querySelector('[data-banner]');
+      setBannerHeight(banner ? banner.offsetHeight : 0);
+    };
+
+    updateBannerHeight();
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Observe for visibility changes (like when the user closes the banner)
+    const observer = new MutationObserver(updateBannerHeight);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   return (

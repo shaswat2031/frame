@@ -27,6 +27,8 @@ export const metadata = {
   description: "Curating the world's finest frames since 1987. Where precision meets personal expression.",
 };
 
+import AnnouncementBanner from '@/components/layout/AnnouncementBanner';
+import Navbar from '@/components/layout/Navbar';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 
 export default function RootLayout({ children }) {
@@ -36,6 +38,8 @@ export default function RootLayout({ children }) {
         <SmoothScroll>
           <CustomCursor />
           <ThemeToggle />
+          <Navbar />
+          <AnnouncementBanner />
           {children}
         </SmoothScroll>
       </body>

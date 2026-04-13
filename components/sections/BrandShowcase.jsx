@@ -18,8 +18,8 @@ export default function BrandShowcase() {
       <div className="container mx-auto px-6">
         <div className="flex justify-between items-end mb-16">
           <div>
-            <span className="text-teal uppercase tracking-[0.4em] text-[10px] font-bold mb-4 block">The Global Collection</span>
-            <h2 className="text-5xl md:text-7xl font-serif tracking-tight italic text-cream">Shop By Heritage</h2>
+            <span className="text-teal uppercase tracking-[0.4em] text-[10px] font-bold mb-4 block">By Heritage</span>
+            <h2 className="text-5xl md:text-7xl font-serif tracking-tight italic text-cream">Buy Brand By Brand</h2>
           </div>
           <Link href="/collections" className="text-gold uppercase tracking-widest text-[10px] border-b border-gold/30 pb-2 hover:border-gold transition-all">
             Explore All Brands →

@@ -5,7 +5,10 @@ import { useEffect, useState } from 'react';
 export default function SpecFrameLoader() {
   const [isVisible, setIsVisible] = useState(true);
 
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
+    setIsMounted(true);
     // Extended the loading time slightly for the more complex animation
     const timer = setTimeout(() => setIsVisible(false), 3000);
     return () => clearTimeout(timer);
@@ -148,7 +151,7 @@ export default function SpecFrameLoader() {
 
           {/* Particle background for premium feel */}
           <div className="absolute inset-0 z-[-1] opacity-20">
-            {[...Array(20)].map((_, i) => (
+            {isMounted && [...Array(20)].map((_, i) => (
               <motion.div
                 key={i}
                 initial={{
@@ -169,6 +172,7 @@ export default function SpecFrameLoader() {
               />
             ))}
           </div>
+
 
           {/* Progress Bar (Subtle) */}
           <motion.div
