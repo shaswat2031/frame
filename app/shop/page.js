@@ -110,7 +110,7 @@ export default function ShopPage() {
                           className="object-cover transition-transform duration-1000 group-hover:scale-110"
                         />
                       ) : (
-                        <span className="text-cream/20 font-mono text-[10px] tracking-[0.2em]">[ {product.id} ]</span>
+                        <span className="text-cream/20 font-mono text-[10px] tracking-[0.2em]">[ {product.id} ] {/* RENDER_SHOT_01 */}</span>
                       )}
                     </div>
 

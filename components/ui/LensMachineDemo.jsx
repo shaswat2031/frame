@@ -16,7 +16,7 @@ export default function LensMachineDemo() {
   useEffect(() => {
     springSphere.set(spherePower);
     springAxis.set(axis);
-  }, [spherePower, axis]);
+  }, [spherePower, axis, springSphere, springAxis]);
 
   // Derived Advanced Optical Effects
   const chromaticAberration = useTransform(springSphere, (v) => Math.abs(v) * 1.2);

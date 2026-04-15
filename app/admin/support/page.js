@@ -103,7 +103,7 @@ export default function SupportTickets() {
                  {/* User Message */}
                  <div className="max-w-[80%] flex flex-col gap-2">
                     <div className="p-6 bg-navy border border-gold/10 font-light text-cream/80 leading-relaxed text-sm">
-                       Greetings Mission Control. I am writing to inquire about the current location of my recent acquisition, Order ORD-7721. The operational status has been stuck at 'Processing' for the last 48 hours. I require a tactical update on the logistics.
+                       Greetings Mission Control. I am writing to inquire about the current location of my recent acquisition, Order ORD-7721. The operational status has been stuck at &apos;Processing&apos; for the last 48 hours. I require a tactical update on the logistics.
                     </div>
                     <span className="font-mono text-[8px] tracking-[0.2em] text-cream/30 uppercase px-1">JULIAN VOSS • 12:42 PM</span>
                  </div>

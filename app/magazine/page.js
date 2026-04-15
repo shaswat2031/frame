@@ -198,10 +198,10 @@ const SHEETS = [
         <div className="text-center space-y-6">
           <span className="font-mono text-[8px] tracking-[0.3em] text-gold uppercase block">PERSPECTIVES</span>
           <h2 className="text-5xl font-serif italic leading-tight text-white">
-            "We do not sell frames. We engineer ways to see the world completely unimpeded."
+            &quot;We do not sell frames. We engineer ways to see the world completely unimpeded.&quot;
           </h2>
           <div className="w-8 h-px bg-gold/50 mx-auto" />
-          <span className="font-mono text-[9px] tracking-widest text-cream/40 uppercase block">The Founder's Dialogue</span>
+          <span className="font-mono text-[9px] tracking-widest text-cream/40 uppercase block">The Founder&apos;s Dialogue</span>
         </div>
         <div className="absolute bottom-6 right-6 font-mono text-[8px] text-cream/40">9</div>
       </Paper>
@@ -220,11 +220,11 @@ const SHEETS = [
           
           <div className="space-y-2">
             <span className="font-mono text-[8px] font-bold text-navy">VISIO:</span>
-            <p className="text-[10px] font-sans text-navy/80 text-justify">What makes the "Architect" series functionally different?</p>
+            <p className="text-[10px] font-sans text-navy/80 text-justify">What makes the &quot;Architect&quot; series functionally different?</p>
           </div>
           <div className="space-y-2 pl-4 border-l border-gold/50">
             <span className="font-mono text-[8px] font-bold text-gold">FD:</span>
-            <p className="text-[10px] font-sans text-navy/80 text-justify">We eliminated screws. Using a pure tension hinge system inspired by suspension bridges, the frame dynamically adapts to temporal lobes without loosening over time. It's living engineering.</p>
+            <p className="text-[10px] font-sans text-navy/80 text-justify">We eliminated screws. Using a pure tension hinge system inspired by suspension bridges, the frame dynamically adapts to temporal lobes without loosening over time. It&apos;s living engineering.</p>
           </div>
         </div>
         <div className="absolute bottom-6 left-6 font-mono text-[8px] text-navy/40">10</div>

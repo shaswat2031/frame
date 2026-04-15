@@ -104,7 +104,7 @@ export default function ProductDetailPage() {
                 />
               ) : (
                 <div className="relative z-10 text-cream/20 font-mono text-[10px] tracking-[0.5em] rotate-90 whitespace-nowrap">
-                  {product.id} // RENDER_SHOT_01
+                  {product.id} {/* RENDER_SHOT_01 */}
                 </div>
               )}
 
