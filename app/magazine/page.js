@@ -120,7 +120,7 @@ const SHEETS = [
         <div className="z-10 bg-navy p-12 text-center text-cream shadow-2xl relative">
           <div className="absolute -top-3 -left-3 w-6 h-6 border-t-2 border-l-2 border-gold" />
           <div className="absolute -bottom-3 -right-3 w-6 h-6 border-b-2 border-r-2 border-gold" />
-          <p className="font-serif italic text-2xl text-gold mb-4">"Weightless presence."</p>
+          <p className="font-serif italic text-2xl text-gold mb-4">&quot;Weightless presence.&quot;</p>
           <p className="font-mono text-[8px] tracking-[0.2em]">TITANIUM FORGE / OSAKA, JP</p>
         </div>
         <div className="absolute bottom-6 left-6 font-mono text-[8px] text-navy/40">4</div>
