@@ -2,6 +2,7 @@ import { Cormorant_Garamond, Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import CustomCursor from '@/components/ui/CustomCursor';
 import SmoothScroll from '@/components/layout/SmoothScroll';
+import NextAuthProvider from '@/components/providers/NextAuthProvider';
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -36,11 +37,13 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${cormorant.variable} ${inter.variable} ${playfair.variable}`}>
       <body className="overflow-x-hidden antialiased">
         <SmoothScroll>
-          <CustomCursor />
-          <ThemeToggle />
-          <Navbar />
-          <AnnouncementBanner />
-          {children}
+          <NextAuthProvider>
+            <CustomCursor />
+            <ThemeToggle />
+            <Navbar />
+            <AnnouncementBanner />
+            {children}
+          </NextAuthProvider>
         </SmoothScroll>
       </body>
     </html>

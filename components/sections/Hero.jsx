@@ -22,7 +22,7 @@ const technicalSpecs = [
 export default function Hero() {
   const containerRef = useRef(null);
   const imageRef = useRef(null);
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
@@ -48,12 +48,12 @@ export default function Hero() {
   };
 
   return (
-    <section 
+    <section
       ref={containerRef}
       className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden bg-navy"
     >
       {/* ── BACKGROUND IMAGE WITH PARALLAX ── */}
-      <motion.div 
+      <motion.div
         style={{ y, opacity }}
         className="absolute inset-0 z-0"
       >
@@ -69,7 +69,7 @@ export default function Hero() {
       </motion.div>
 
       <div className="container mx-auto px-6 relative z-20 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        
+
         {/* ── LEFT CONTENT ── */}
         <motion.div
           variants={containerVariants}
@@ -103,14 +103,14 @@ export default function Hero() {
           >
             {/* Shimmer Effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent -translate-x-full group-hover:animate-shimmer" />
-            
+
             <div className="flex whitespace-nowrap overflow-hidden">
-              <motion.div 
+              <motion.div
                 animate={{ x: [0, -1000] }}
-                transition={{ 
-                  duration: 40, 
-                  repeat: Infinity, 
-                  ease: "linear" 
+                transition={{
+                  duration: 40,
+                  repeat: Infinity,
+                  ease: "linear"
                 }}
                 className="flex items-center gap-12"
               >
@@ -149,7 +149,7 @@ export default function Hero() {
               data-cursor="VIRTUAL"
               className="group border border-cream/20 text-cream px-10 py-5 text-[11px] uppercase tracking-[0.2em] font-bold hover:border-gold transition-all duration-500 flex items-center gap-3"
             >
-              Virtual Try-On 
+              Virtual Try-On
               <span className="w-2 h-2 rounded-full bg-gold group-hover:animate-pulse" />
             </Link>
           </motion.div>
@@ -172,24 +172,24 @@ export default function Hero() {
         </motion.div>
 
         {/* ── RIGHT VISUAL (FLOATING ELEMENT) ── */}
-        <motion.div 
+        <motion.div
           variants={itemVariants}
           className="hidden lg:block lg:col-span-6 relative h-[600px]"
         >
           {/* Decorative Elements */}
           <div className="absolute inset-0 border border-gold/10 rounded-[40px] rotate-3 scale-95" />
           <div className="absolute inset-0 border border-teal/10 rounded-[40px] -rotate-3 scale-105" />
-          
+
           <motion.div
-            animate={{ 
+            animate={{
               y: [0, -20, 0],
               rotateX: [0, 5, 0],
               rotateY: [0, -5, 0]
             }}
-            transition={{ 
-              duration: 10, 
-              repeat: Infinity, 
-              ease: "easeInOut" 
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut"
             }}
             className="w-full h-full relative z-10 rounded-[40px] overflow-hidden shadow-2xl"
           >

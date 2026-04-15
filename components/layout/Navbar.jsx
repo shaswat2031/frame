@@ -5,12 +5,12 @@ import { Search, ShoppingCart, User, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 
 const navLinks = [
-  { name: 'Shop', href: '#' },
-  { name: 'Categories', href: '#' },
-  { name: 'Brands', href: '#' },
-  { name: 'Magazine', href: '#' },
-  { name: 'About', href: '#' },
-  { name: 'Contact', href: '#' },
+  { name: 'Shop', href: '/shop' },
+  { name: 'Categories', href: '/categories' },
+  { name: 'Brands', href: '/brands' },
+  { name: 'Magazine', href: '/magazine' },
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
 ];
 
 export default function Navbar() {
