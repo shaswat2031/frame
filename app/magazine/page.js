@@ -244,7 +244,7 @@ const SHEETS = [
                <span className="font-mono text-[6px] text-navy/30">1987 ARCHIVE</span>
             </div>
           </div>
-          <h2 className="text-3xl font-serif italic text-navy/80 mb-4">The '87 Aviator</h2>
+          <h2 className="text-3xl font-serif italic text-navy/80 mb-4">The &apos;87 Aviator</h2>
           <p className="font-mono text-[8px] tracking-[0.2em] text-navy/50 max-w-[200px]">
             REDISCOVERED & REMASTERED FOR MODERN DURABILITY.
           </p>
