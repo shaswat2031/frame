@@ -140,7 +140,7 @@ export default function ShopPage() {
                     <div className="space-y-1">
                       <h3 className="text-xl font-light tracking-wide group-hover:text-gold transition-colors">{product.name}</h3>
                       <p className="font-mono text-[10px] tracking-[0.15em] text-cream/60">
-                        {product.id} // {product.details}
+                        {product.id} {'//'} {product.details}
                       </p>
                     </div>
                     <div className="text-right">

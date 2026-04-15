@@ -34,7 +34,7 @@ export default function AboutPage() {
             <div className="space-y-6">
               <h2 className="text-3xl font-serif italic text-gold">From Punjab to the World</h2>
               <p className="text-lg text-cream/80 font-light leading-relaxed">
-                Founded in 1987, Eyeconic began as a singular vision in the heart of Punjab. Our mission was never merely to correct sight, but to elevate it. Eyewear is humanity's most intimate accessory—it alters perception, and in turn, how the world perceives you.
+                Founded in 1987, Eyeconic began as a singular vision in the heart of Punjab. Our mission was never merely to correct sight, but to elevate it. Eyewear is humanity&apos;s most intimate accessory—it alters perception, and in turn, how the world perceives you.
               </p>
             </div>
             
