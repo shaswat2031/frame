@@ -7,7 +7,6 @@ import Link from 'next/link';
 const navLinks = [
   { name: 'Shop', href: '/shop' },
   { name: 'Categories', href: '/categories' },
-  { name: 'Brands', href: '/brands' },
   { name: 'Magazine', href: '/magazine' },
   { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
@@ -49,7 +48,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex flex-col group">
           <span className="text-2xl font-serif text-gold tracking-[0.3em] font-light leading-none">
-            EYECONIC
+            EYELOVEYOU
           </span>
           <span className="text-[9px] uppercase tracking-widest text-teal mt-1">
             Punjab Optical · Est. 1987

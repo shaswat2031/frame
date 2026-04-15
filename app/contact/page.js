@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export default function ContactPage() {
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, ease: "easeInOut" }}
       className="min-h-screen pt-32 pb-32 bg-navy text-cream transition-colors duration-700"
     >
@@ -35,7 +35,7 @@ export default function ContactPage() {
             <div>
               <h2 className="text-2xl font-light tracking-widest mb-6">COMMUNICATION</h2>
               <div className="font-mono text-[10px] tracking-[0.2em] text-cream/60 space-y-3 uppercase">
-                <p>E: <a href="mailto:concierge@eyeconic.com" className="text-gold hover:text-cream transition-colors">concierge@eyeconic.com</a></p>
+                <p>E: <a href="mailto:concierge@EYELOVEYOU.com" className="text-gold hover:text-cream transition-colors">concierge@EYELOVEYOU.com</a></p>
                 <p>T: <span className="text-cream">+91 98765 43210</span></p>
               </div>
             </div>
@@ -47,7 +47,7 @@ export default function ContactPage() {
                 <p>SUNDAY: <span className="text-cream">BY INVITATION ONLY</span></p>
               </div>
             </div>
-            
+
             <button className="border border-gold px-10 py-4 text-[10px] uppercase tracking-[0.2em] font-mono text-gold hover:bg-gold hover:text-navy transition-all duration-300">
               BOOK PRIVATE FITTING
             </button>
@@ -67,11 +67,11 @@ export default function ContactPage() {
               </div>
               <div className="flex flex-col space-y-2">
                 <label className="text-cream/50">SUBJECT</label>
-                 <select className="bg-transparent border-b border-gold/20 pb-3 outline-none focus:border-gold transition-colors text-cream text-base appearance-none cursor-pointer">
-                   <option className="bg-navy text-cream">GENERAL INQUIRY</option>
-                   <option className="bg-navy text-cream">PRODUCT SOURCING</option>
-                   <option className="bg-navy text-cream">AFTERSALES SUPPORT</option>
-                 </select>
+                <select className="bg-transparent border-b border-gold/20 pb-3 outline-none focus:border-gold transition-colors text-cream text-base appearance-none cursor-pointer">
+                  <option className="bg-navy text-cream">GENERAL INQUIRY</option>
+                  <option className="bg-navy text-cream">PRODUCT SOURCING</option>
+                  <option className="bg-navy text-cream">AFTERSALES SUPPORT</option>
+                </select>
               </div>
               <div className="flex flex-col space-y-2">
                 <label className="text-cream/50">DISCOURSE</label>

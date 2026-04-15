@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export default function AboutPage() {
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, ease: "easeInOut" }}
       className="min-h-screen pt-32 pb-32 bg-navy text-cream transition-colors duration-700"
     >
@@ -34,10 +34,10 @@ export default function AboutPage() {
             <div className="space-y-6">
               <h2 className="text-3xl font-serif italic text-gold">From Punjab to the World</h2>
               <p className="text-lg text-cream/80 font-light leading-relaxed">
-                Founded in 1987, Eyeconic began as a singular vision in the heart of Punjab. Our mission was never merely to correct sight, but to elevate it. Eyewear is humanity&apos;s most intimate accessory—it alters perception, and in turn, how the world perceives you.
+                Founded in 1987, EYELOVEYOU began as a singular vision in the heart of Punjab. Our mission was never merely to correct sight, but to elevate it. Eyewear is humanity&apos;s most intimate accessory—it alters perception, and in turn, how the world perceives you.
               </p>
             </div>
-            
+
             <div className="w-full h-px bg-gold/10" />
 
             <div className="space-y-6">

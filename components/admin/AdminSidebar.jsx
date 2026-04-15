@@ -7,9 +7,6 @@ import {
   ShoppingCart, 
   Users, 
   MessageSquare, 
-  Settings, 
-  QrCode, 
-  FileText,
   LogOut
 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -35,7 +32,7 @@ export default function AdminSidebar() {
 
       <nav className="flex-1 px-4 space-y-2">
         {menuItems.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
           return (
             <Link 
               key={item.id} 

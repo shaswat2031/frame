@@ -29,7 +29,7 @@ export default function TryOnPage() {
               <span className="text-teal uppercase tracking-[0.4em] text-[10px] font-bold mb-4 block">AR Design Studio</span>
               <h1 className="text-5xl md:text-7xl font-serif italic tracking-tight mb-4">Mirror of Discovery</h1>
               <p className="text-cream/40 text-xs leading-relaxed max-w-sm uppercase tracking-wider font-bold">
-                REAL-TIME BIOMETRIC MAPPING REIMAGINED. EXPLORE THE EYECONIC AESTHETIC ON YOUR OWN FEATURES.
+                REAL-TIME BIOMETRIC MAPPING REIMAGINED. EXPLORE THE EYELOVEYOU AESTHETIC ON YOUR OWN FEATURES.
               </p>
             </div>
 

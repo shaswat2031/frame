@@ -38,7 +38,7 @@ export default function Footer() {
           <div className="space-y-8">
             <div className="flex flex-col">
               <span className="text-2xl font-serif text-gold tracking-[0.3em] font-light leading-none">
-                EYECONIC
+                EYELOVEYOU
               </span>
               <span className="text-[9px] uppercase tracking-widest text-teal mt-1">
                 Punjab Optical · Est. 1987
@@ -86,7 +86,7 @@ export default function Footer() {
 
         <div className="pt-12 border-t border-gold/5 flex flex-col md:flex-row justify-between items-center gap-8">
           <p className="text-[10px] text-cream/30 uppercase tracking-[0.2em]">
-            © 2026 EYECONIC Punjab Optical. All Rights Reserved.
+            © 2026 EYELOVEYOU Punjab Optical. All Rights Reserved.
           </p>
 
           <div className="flex items-center space-x-8">

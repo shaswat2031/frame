@@ -4,76 +4,13 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import { getMockProductById, getMockProducts } from '@/lib/mock-feed';
 
-const products = [
-  { 
-    id: 'VIS-001', 
-    name: 'THE ARCHITECT', 
-    price: '$450', 
-    details: 'TITANIUM / OPTICAL', 
-    stock: 'LIMITED',
-    image: '/products/architect.png',
-    description: 'A masterclass in structural minimalism. Inspired by brutalist 20th-century architecture, the Architect features a screwless tension-hinge system and a hand-polished beta-titanium chassis.',
-    specs: [
-      { label: 'Material', value: 'Beta-Titanium 15-3-3-3' },
-      { label: 'Weight', value: '18.4 Grams' },
-      { label: 'Lenses', value: 'Acuity Certified™ Clear' },
-      { label: 'Hinge', value: 'Tension-Lock™ Helix' }
-    ],
-    features: [
-      "Precision-engineered beta-titanium",
-      "Screwless tension hinging system",
-      "Signature 'Frame' branding on internal temple",
-      "Adjustable silicon nose pads for custom fit"
-    ]
-  },
-  { 
-    id: 'VIS-002', 
-    name: 'V-PRO 01', 
-    price: '$520', 
-    details: 'CARBON / SUN', 
-    stock: 'IN STOCK',
-    image: '/products/vpro01.png',
-    description: 'High-velocity design for the modern vanguard. The V-PRO 01 utilizes woven carbon fiber layers for unparalleled rigidity and a weight-to-strength ratio that exceeds aerospace standards.',
-    specs: [
-      { label: 'Material', value: 'Aramid Carbon Fiber' },
-      { label: 'Weight', value: '22.1 Grams' },
-      { label: 'Lenses', value: 'Polarized Onyx' },
-      { label: 'Coating', value: 'Anti-Hydrophobic' }
-    ],
-    features: [
-      "Multi-layer aerospace-grade carbon fiber",
-      "Polarized category 3 sun lenses",
-      "Ultra-lightweight high-rigidity construction",
-      "Internal anti-reflective coating"
-    ]
-  },
-  { 
-    id: 'VIS-003', 
-    name: 'LUMINA', 
-    price: '$480', 
-    details: 'ACETATE / OPTICAL', 
-    stock: 'IN STOCK',
-    image: '/products/lumina.png',
-    description: 'Warmth meets precision. Lumina is carved from a single block of vintage-aged Italian acetate, featuring embedded gold-wire cores for lifetime adjustability.',
-    specs: [
-      { label: 'Material', value: 'Mazzucchelli Acetate' },
-      { label: 'Weight', value: '28.0 Grams' },
-      { label: 'Finish', value: 'High-Gloss Hand Wax' },
-      { label: 'Hardware', value: '18k Gold Plated' }
-    ],
-    features: [
-      "Traditional rivets for maximum durability",
-      "Exclusive Italian signature acetate",
-      "Polished by hand for 48 hours",
-      "Anatomically contoured bridge"
-    ]
-  },
-];
+const products = getMockProducts();
 
 export default function ProductDetailPage() {
   const { id } = useParams();
-  const product = products.find(p => p.id === id) || products[0];
+  const product = getMockProductById(id) || products[0];
 
   return (
     <motion.div 
@@ -144,6 +81,10 @@ export default function ProductDetailPage() {
               </motion.div>
               
               <div className="space-y-2">
+                <div className="flex flex-wrap gap-2 mb-2">
+                  <span className="inline-flex items-center border border-gold/20 px-2 py-1 text-[8px] tracking-[0.2em] font-mono text-gold uppercase">{product.brand}</span>
+                  <span className="inline-flex items-center border border-cream/10 px-2 py-1 text-[8px] tracking-[0.2em] font-mono text-cream/60 uppercase">{product.category}</span>
+                </div>
                 <motion.h1 
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -168,7 +109,7 @@ export default function ProductDetailPage() {
                 transition={{ delay: 0.5 }}
                 className="text-4xl font-serif italic text-gold"
               >
-                {product.price}
+                ${product.price}
               </motion.p>
             </header>
 

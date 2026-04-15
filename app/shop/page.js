@@ -2,18 +2,9 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getMockProducts } from '@/lib/mock-feed';
 
-// ── PRODUCTS DATA ──
-const products = [
-  { id: 'VIS-001', name: 'THE ARCHITECT', price: '$450', details: 'TITANIUM / OPTICAL', stock: 'LIMITED', image: '/products/architect.png' },
-  { id: 'VIS-002', name: 'V-PRO 01', price: '$520', details: 'CARBON / SUN', stock: 'IN STOCK', image: '/products/vpro01.png' },
-  { id: 'VIS-003', name: 'LUMINA', price: '$480', details: 'ACETATE / OPTICAL', stock: 'IN STOCK', image: '/products/lumina.png' },
-  { id: 'VIS-004', name: 'ECLIPSE', price: '$590', details: 'TITANIUM / POLARIZED', stock: 'BACKORDER' },
-  { id: 'VIS-005', name: 'HORIZON', price: '$410', details: 'MIXED / OPTICAL', stock: 'IN STOCK' },
-  { id: 'VIS-006', name: 'AURA', price: '$550', details: 'GOLD PLATE / SUN', stock: 'LIMITED' },
-  { id: 'VIS-007', name: 'NEXUS', price: '$490', details: 'CARBON / OPTICAL', stock: 'IN STOCK' },
-  { id: 'VIS-008', name: 'QUANTUM', price: '$610', details: 'TITANIUM / SUN', stock: 'WAITLIST' },
-];
+const products = getMockProducts();
 
 export default function ShopPage() {
   return (
@@ -138,13 +129,17 @@ export default function ShopPage() {
                   {/* Product Meta */}
                   <div className="flex justify-between items-start">
                     <div className="space-y-1">
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        <span className="inline-flex items-center border border-gold/20 px-2 py-1 text-[8px] tracking-[0.2em] font-mono text-gold uppercase">{product.brand}</span>
+                        <span className="inline-flex items-center border border-cream/10 px-2 py-1 text-[8px] tracking-[0.2em] font-mono text-cream/60 uppercase">{product.category}</span>
+                      </div>
                       <h3 className="text-xl font-light tracking-wide group-hover:text-gold transition-colors">{product.name}</h3>
                       <p className="font-mono text-[10px] tracking-[0.15em] text-cream/60">
                         {product.id} {'//'} {product.details}
                       </p>
                     </div>
                     <div className="text-right">
-                      <span className="text-lg font-serif italic text-gold">{product.price}</span>
+                      <span className="text-lg font-serif italic text-gold">${product.price}</span>
                     </div>
                   </div>
                 </Link>

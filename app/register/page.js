@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { User, Mail, Lock, ArrowRight, Loader2, ShieldCheck } from 'lucide-react';
+import { User, Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 
 export default function RegisterPage() {
@@ -12,8 +12,7 @@ export default function RegisterPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: '',
-    role: 'USER'
+    password: ''
   });
 
   const handleSubmit = async (e) => {
@@ -135,27 +134,6 @@ export default function RegisterPage() {
                 className="w-full bg-navy border border-gold/10 px-12 py-4 font-mono text-[10px] tracking-[0.2em] text-cream outline-none focus:border-gold/30 transition-all placeholder:text-cream/10"
               />
             </div>
-          </div>
-
-          <div className="pt-4 space-y-2">
-             <label className="font-mono text-[8px] tracking-[0.3em] text-gold uppercase ml-1">Clearance Level</label>
-             <div className="grid grid-cols-2 gap-4">
-                <button 
-                  type="button"
-                  onClick={() => setFormData({...formData, role: 'USER'})}
-                  className={`py-3 font-mono text-[8px] border transition-all ${formData.role === 'USER' ? 'bg-gold text-navy border-gold' : 'border-gold/20 text-cream/40'}`}
-                >
-                  STANDARD
-                </button>
-                <button 
-                  type="button"
-                  onClick={() => setFormData({...formData, role: 'ADMIN'})}
-                  className={`py-3 font-mono text-[8px] border transition-all flex items-center justify-center gap-2 ${formData.role === 'ADMIN' ? 'bg-gold text-navy border-gold' : 'border-gold/20 text-cream/40'}`}
-                >
-                  <ShieldCheck className="w-3 h-3" />
-                  ADMIN
-                </button>
-             </div>
           </div>
 
           <button 

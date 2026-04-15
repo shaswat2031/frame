@@ -31,26 +31,29 @@ export default function SpecFrameLoader() {
               initial: { opacity: 0 },
               animate: { opacity: 1 },
               exit: {
-                scale: 40,
-                x: "20%", // Shift to center the left lens during the zoom
-                opacity: 0,
-                filter: "blur(5px)",
-                transition: { duration: 1.5, ease: [0.7, 0, 0.3, 1] }
+                scale: 65,
+                x: "20%", // Accurate shift to center the left lens (at 30% width)
+                opacity: 1, // Keep visible during zoom for "passing through" look
+                transition: { 
+                  duration: 2.2, 
+                  ease: [0.7, 0, 0.2, 1], // Custom cinematic bezier
+                  opacity: { duration: 1.2, delay: 1 } // Fade out frame late in zoom
+                }
               }
             }}
             initial="initial"
             animate="animate"
             exit="exit"
             style={{
-              transformOrigin: "30% 45%",
+              transformOrigin: "30% 50%", // Perfectly centered on left lens
             }}
             className="relative flex flex-col items-center justify-center w-full h-full"
           >
             {/* The Specs Silhouette - Full Frame Dual Lens */}
             <motion.div
-              initial={{ scale: 0.8, opacity: 0, filter: 'blur(10px)' }}
+              initial={{ scale: 0.85, opacity: 0, filter: 'blur(15px)' }}
               animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
-              transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
               className="relative"
             >
               <svg
@@ -61,129 +64,156 @@ export default function SpecFrameLoader() {
                 xmlns="http://www.w3.org/2000/svg"
                 className="text-gold"
               >
-                {/* Detailed Dual-Lens Rims */}
-                {/* Left Rim */}
+                {/* Refined Frame with subtle variations in thickness */}
+                {/* Left Rim (Primary zoom target) */}
                 <path
-                  d="M60 60C60 40 80 30 110 30H150C170 30 180 45 180 70V90C180 115 160 130 135 130H100C75 130 60 115 60 90V60Z"
+                  d="M60 60C60 38 78 28 110 28H150C172 28 182 45 182 70V90C182 115 162 132 135 132H100C72 132 60 115 60 90V60Z"
                   stroke="currentColor"
-                  strokeWidth="1.5"
-                  className="drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]"
+                  strokeWidth="2"
+                  className="drop-shadow-[0_0_20px_rgba(212,175,55,0.4)]"
                 />
                 {/* Right Rim */}
                 <path
-                  d="M220 70C220 45 230 30 250 30H290C320 30 340 40 340 60V90C340 115 325 130 300 130H265C240 130 220 115 220 90V70Z"
+                  d="M218 70C218 45 228 28 250 28H290C322 28 340 38 340 60V90C340 115 328 132 300 132H265C238 132 218 115 218 90V70Z"
                   stroke="currentColor"
-                  strokeWidth="1.5"
-                  className="drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]"
+                  strokeWidth="2"
+                  className="drop-shadow-[0_0_20px_rgba(212,175,55,0.4)]"
                 />
 
-                {/* Precision Bridge */}
+                {/* Precision Bridge - More sculpted look */}
                 <path
-                  d="M180 65C180 65 190 55 200 55C210 55 220 65 220 65"
+                  d="M182 65C182 65 190 52 200 52C210 52 218 65 218 65"
                   stroke="currentColor"
-                  strokeWidth="1.5"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
                 />
+                
+                {/* Hand-crafted Nose Pads */}
+                <path d="M174 85C174 85 178 95 178 105" stroke="currentColor" strokeWidth="0.8" opacity="0.6" />
+                <path d="M226 85C226 85 222 95 222 105" stroke="currentColor" strokeWidth="0.8" opacity="0.6" />
 
-                {/* Glass Lenses (Two distinct lenses) */}
+                {/* Glass Lenses - Enhanced with better gradients */}
                 <motion.path
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.12 }}
-                  transition={{ delay: 1, duration: 1 }}
-                  d="M70 70C70 50 85 40 110 40H140C160 40 170 50 170 70V90C170 105 160 120 140 120H100C80 120 70 105 70 90V70Z"
-                  fill="white"
+                  animate={{ opacity: 0.15 }}
+                  transition={{ delay: 1, duration: 1.2 }}
+                  d="M70 70C70 48 85 38 110 38H140C162 38 172 48 172 70V90C172 108 162 122 140 122H100C78 122 70 108 70 90V70Z"
+                  fill="url(#lensGradient)"
                 />
                 <motion.path
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.12 }}
-                  transition={{ delay: 1.2, duration: 1 }}
-                  d="M230 70C230 50 240 40 260 40H290C315 40 330 50 330 70V90C330 105 320 120 300 120H260C240 120 230 105 230 90V70Z"
-                  fill="white"
+                  animate={{ opacity: 0.15 }}
+                  transition={{ delay: 1.2, duration: 1.2 }}
+                  d="M228 70C228 48 238 38 260 38H290C315 38 330 48 330 70V90C330 108 320 122 300 122H260C238 122 228 108 228 90V70Z"
+                  fill="url(#lensGradient)"
                 />
 
-                {/* Temples */}
-                <path d="M60 65H10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M340 65H390" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                <defs>
+                  <linearGradient id="lensGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="white" stopOpacity="0.4" />
+                    <stop offset="50%" stopColor="white" stopOpacity="0.1" />
+                    <stop offset="100%" stopColor="white" stopOpacity="0.3" />
+                  </linearGradient>
+                </defs>
+
+                {/* Temples - Tapered for realism */}
+                <path d="M60 65L0 60" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.8" />
+                <path d="M340 65L400 60" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.8" />
               </svg>
 
-              {/* Shine Animation */}
+              {/* Dynamic Shine Animation */}
               <motion.div
-                initial={{ x: "-150%", skewX: -20 }}
+                initial={{ x: "-150%", skewX: -25 }}
                 animate={{ x: "150%" }}
                 transition={{
-                  duration: 2.5,
+                  duration: 2.8,
                   repeat: Infinity,
-                  repeatDelay: 1,
+                  repeatDelay: 1.2,
                   ease: "easeInOut"
                 }}
-                className="absolute top-0 left-0 w-1/4 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none"
+                className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none"
               />
             </motion.div>
 
-            {/* Branding */}
+            {/* Branding - More elegant reveal */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20, letterSpacing: "1em" }}
+              animate={{ opacity: 1, y: 0, letterSpacing: "0.5em" }}
               exit={{
                 opacity: 0,
-                transition: { duration: 0.5 }
+                scale: 0.9,
+                filter: "blur(10px)",
+                transition: { duration: 0.7, ease: "easeIn" }
               }}
-              transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
-              className="mt-12 flex flex-col items-center"
+              transition={{ delay: 0.6, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-16 flex flex-col items-center"
             >
-              <h1 className="text-4xl md:text-5xl font-serif text-gold tracking-[0.5em] font-light leading-none">
-                EYECONIC
+              <h1 className="text-4xl md:text-5xl font-serif text-gold tracking-luxury font-light leading-none">
+                EYELOVEYOU
               </h1>
-              <div className="flex items-center mt-4 space-x-4">
-                <span className="h-[1px] w-8 bg-gold/30" />
-                <span className="text-[10px] text-teal tracking-[0.4em] uppercase font-medium">EST. 1987</span>
-                <span className="h-[1px] w-8 bg-gold/30" />
+              <div className="flex items-center mt-6 space-x-6">
+                <span className="h-[1px] w-12 bg-gold/20" />
+                <span className="text-[11px] text-teal/80 tracking-ultra uppercase font-medium">EST. 1987</span>
+                <span className="h-[1px] w-12 bg-gold/20" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* Centered Optic Vignette on the Left Lens Path */}
+          {/* Centered Optic Reveal Mask - Perfectly aligned with pass-through target */}
           <motion.div
-            initial={{ opacity: 0 }}
-            exit={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="absolute inset-0 z-[110] pointer-events-none bg-[radial-gradient(circle_at_50%_45%,transparent_10%,rgba(5,8,10,0.8)_60%,#05080a_100%)]"
+            initial={{ opacity: 0, scale: 0.8 }}
+            exit={{ 
+              opacity: 1, 
+              scale: 4,
+              transition: { duration: 1.8, ease: [0.7, 0, 0.2, 1] } 
+            }}
+            className="absolute inset-0 z-[110] pointer-events-none"
+            style={{
+              background: "radial-gradient(circle at 30% 50%, transparent 5%, rgba(5,8,10,0.85) 45%, #05080a 75%)"
+            }}
           />
 
-          {/* Particle background for premium feel */}
-          <div className="absolute inset-0 z-[-1] opacity-20">
-            {isMounted && [...Array(20)].map((_, i) => (
+          {/* Particle background - More subtle and floaty */}
+          <div className="absolute inset-0 z-[-1] opacity-30">
+            {isMounted && [...Array(35)].map((_, i) => (
               <motion.div
                 key={i}
                 initial={{
                   x: Math.random() * 100 + "%",
                   y: Math.random() * 100 + "%",
-                  opacity: 0
+                  opacity: 0,
+                  scale: Math.random() * 0.5 + 0.5
                 }}
                 animate={{
-                  y: [null, "-20%"],
-                  opacity: [0, 1, 0]
+                  y: [null, (Math.random() - 0.5) * 100 + "px"],
+                  opacity: [0, 0.6, 0]
                 }}
                 transition={{
-                  duration: 3 + Math.random() * 2,
+                  duration: 4 + Math.random() * 4,
                   repeat: Infinity,
-                  delay: Math.random() * 2
+                  delay: Math.random() * 5
                 }}
-                className="absolute w-1 h-1 bg-gold rounded-full"
+                className="absolute w-1 h-1 bg-gold/40 rounded-full blur-[1px]"
               />
             ))}
           </div>
 
-
-          {/* Progress Bar (Subtle) */}
+          {/* Progress Indicator - Minimal and premium */}
           <motion.div
-            className="absolute bottom-12 left-1/2 -translate-x-1/2 w-48 h-[1px] bg-gold/10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.3 } }}
+            className="absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
           >
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 2.4, ease: "linear" }}
-              className="h-full bg-gold shadow-[0_0_10px_#d4af37]"
-            />
+            <div className="w-40 h-[1.5px] bg-gold/10 overflow-hidden rounded-full">
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: "0%" }}
+                transition={{ duration: 2.8, ease: "easeInOut" }}
+                className="h-full bg-gradient-to-r from-transparent via-gold to-transparent w-full"
+              />
+            </div>
+            <span className="text-[9px] text-gold/30 tracking-[0.3em] uppercase">Focusing Optics</span>
           </motion.div>
         </motion.div>
       )}

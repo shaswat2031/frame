@@ -1,22 +1,9 @@
 'use client';
 import AdminLayout from '@/components/admin/AdminLayout';
-import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { 
-  MessageSquare, 
-  User, 
-  Send, 
-  CheckCircle, 
-  AlertCircle, 
-  Clock,
-  MoreHorizontal
-} from 'lucide-react';
-
-const mockTickets = [
-  { id: 'TKT-042', user: 'Julian Voss', subject: 'Shipping Delay Inquiry', status: 'IN_PROGRESS', priority: 'MEDIUM', date: '2H AGO' },
-  { id: 'TKT-039', user: 'Elena Wright', subject: 'Custom Prescription Request', status: 'OPEN', priority: 'HIGH', date: '5H AGO' },
-  { id: 'TKT-035', user: 'Marcus Chen', subject: 'Quality Control Feedback', status: 'RESOLVED', priority: 'LOW', date: '1D AGO' },
-];
+import { useEffect, useMemo, useState } from 'react';
+import { AlertTriangle, Clock, MessageSquare, Send, User } from 'lucide-react';
+import { useAdminResource } from '@/hooks/useAdminResource';
+import { adminFetch, formatDate } from '@/lib/admin/client';
 
 const priorityColors = {
   LOW: 'bg-cream/10 text-cream/40',
@@ -26,45 +13,149 @@ const priorityColors = {
 };
 
 export default function SupportTickets() {
-  const [selectedTicket, setSelectedTicket] = useState(mockTickets[0]);
+  const [query, setQuery] = useState('');
+  const [status, setStatus] = useState('');
+  const [selectedTicketId, setSelectedTicketId] = useState('');
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [isSending, setIsSending] = useState(false);
+
+  const { data, isLoading, refetch } = useAdminResource('/api/admin/support', {
+    q: query,
+    status,
+    limit: 20,
+  });
+
+  const tickets = useMemo(() => data?.items || [], [data]);
+
+  useEffect(() => {
+    if (!tickets.length) {
+      setSelectedTicketId('');
+      setSelectedTicket(null);
+      return;
+    }
+
+    const stillExists = tickets.some((ticket) => ticket.id === selectedTicketId);
+    const nextId = stillExists ? selectedTicketId : tickets[0].id;
+
+    if (nextId !== selectedTicketId) {
+      setSelectedTicketId(nextId);
+    }
+  }, [tickets, selectedTicketId]);
+
+  useEffect(() => {
+    if (!selectedTicketId) return;
+
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const ticket = await adminFetch(`/api/admin/support/${selectedTicketId}`);
+        if (!cancelled) {
+          setSelectedTicket(ticket);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message || 'Failed to load ticket details');
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedTicketId]);
+
+  const sendReply = async (event) => {
+    event.preventDefault();
+    if (!selectedTicketId || !message.trim()) return;
+
+    setIsSending(true);
+    setError('');
+
+    try {
+      await adminFetch('/api/admin/support', {
+        method: 'POST',
+        body: JSON.stringify({
+          ticketId: selectedTicketId,
+          message: message.trim(),
+          status: 'IN_PROGRESS',
+        }),
+      });
+
+      setMessage('');
+      await refetch();
+      const ticket = await adminFetch(`/api/admin/support/${selectedTicketId}`);
+      setSelectedTicket(ticket);
+    } catch (err) {
+      setError(err.message || 'Failed to send reply');
+    } finally {
+      setIsSending(false);
+    }
+  };
 
   return (
     <AdminLayout>
-      <header className="mb-12">
+      <header className="mb-8">
         <h1 className="text-4xl font-light tracking-tighter">Support <span className="italic font-serif text-gold">Hub.</span></h1>
         <p className="font-mono text-[10px] tracking-[0.2em] text-cream/40 uppercase mt-2">Client Concierge & Dispatch</p>
       </header>
 
+      <section className="mb-6 grid grid-cols-1 md:grid-cols-4 gap-3">
+        <input
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Search by ticket id, subject, or customer"
+          className="md:col-span-3 bg-navy-surface border border-gold/10 px-3 py-3 text-sm outline-none focus:border-gold/30"
+        />
+        <select value={status} onChange={(event) => setStatus(event.target.value)} className="bg-navy-surface border border-gold/10 px-3 py-3 text-sm outline-none focus:border-gold/30">
+          <option value="">All statuses</option>
+          <option value="OPEN">Open</option>
+          <option value="IN_PROGRESS">In progress</option>
+          <option value="RESOLVED">Resolved</option>
+        </select>
+      </section>
+
+      {error && (
+        <div className="mb-5 border border-red-500/20 bg-red-500/5 text-red-300 px-3 py-2 text-sm inline-flex items-center gap-2">
+          <AlertTriangle className="w-4 h-4" />
+          {error}
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-[calc(100vh-320px)]">
-        {/* Ticket List */}
         <div className="lg:col-span-1 bg-navy-surface border border-gold/5 flex flex-col overflow-hidden">
           <div className="p-6 border-b border-gold/5 font-mono text-[8px] tracking-[0.3em] text-cream/30 uppercase">Active Inquiries</div>
           <div className="flex-1 overflow-y-auto divide-y divide-gold/5">
-            {mockTickets.map((ticket) => (
-              <button 
+            {tickets.map((ticket) => (
+              <button
                 key={ticket.id}
-                onClick={() => setSelectedTicket(ticket)}
+                onClick={() => setSelectedTicketId(ticket.id)}
                 className={`w-full p-6 text-left transition-all relative ${
-                  selectedTicket?.id === ticket.id ? 'bg-gold/[0.03] border-l-2 border-gold shadow-inner' : 'hover:bg-gold/[0.01]'
+                  selectedTicketId === ticket.id ? 'bg-gold/[0.03] border-l-2 border-gold shadow-inner' : 'hover:bg-gold/[0.01]'
                 }`}
               >
                 <div className="flex justify-between items-start mb-2">
-                   <span className="text-xs font-mono tracking-widest text-gold">{ticket.id}</span>
+                   <span className="text-xs font-mono tracking-widest text-gold">{ticket.ticketNumber || ticket.id}</span>
                    <span className={`px-2 py-0.5 rounded-full text-[7px] font-mono tracking-[0.2em] uppercase ${priorityColors[ticket.priority]}`}>
                       {ticket.priority}
                    </span>
                 </div>
                 <h3 className="text-sm font-light text-cream mb-1 truncate">{ticket.subject}</h3>
                 <div className="flex justify-between items-center mt-4">
-                  <span className="text-[10px] text-cream/40 font-light">{ticket.user}</span>
-                  <span className="text-[8px] font-mono text-cream/20">{ticket.date}</span>
+                  <span className="text-[10px] text-cream/40 font-light">{ticket.customerName}</span>
+                  <span className="text-[8px] font-mono text-cream/20">{formatDate(ticket.updatedAt)}</span>
                 </div>
               </button>
             ))}
+
+            {!isLoading && !tickets.length && (
+              <div className="p-6 text-sm text-cream/40">No tickets found for this filter.</div>
+            )}
           </div>
         </div>
 
-        {/* Ticket Details / Chat */}
         <div className="lg:col-span-2 bg-navy-surface border border-gold/5 flex flex-col relative overflow-hidden">
           {selectedTicket ? (
             <>
@@ -74,70 +165,56 @@ export default function SupportTickets() {
                   <div className="flex gap-4 mt-2">
                     <span className="font-mono text-[8px] tracking-[0.2em] text-cream/40 uppercase flex items-center gap-2">
                       <User className="w-3 h-3 text-gold" />
-                      Client: <span className="text-gold">{selectedTicket.user}</span>
+                      Client: <span className="text-gold">{selectedTicket.customerName}</span>
                     </span>
                     <span className="font-mono text-[8px] tracking-[0.2em] text-cream/40 uppercase flex items-center gap-2">
                       <Clock className="w-3 h-3 text-gold" />
-                      Opened: <span className="text-gold">APR 14, 2024</span>
+                      Opened: <span className="text-gold">{formatDate(selectedTicket.createdAt)}</span>
                     </span>
                   </div>
                 </div>
-                <div className="flex gap-2">
-                   <button className="px-6 py-3 border border-gold/10 text-gold font-mono text-[10px] tracking-widest uppercase hover:bg-gold hover:text-navy transition-all">
-                     Resolve Entry
-                   </button>
-                   <button className="p-3 border border-gold/10 text-cream/30 hover:text-gold transition-colors">
-                     <MoreHorizontal className="w-4 h-4" />
-                   </button>
-                </div>
+                <div className="text-xs font-mono text-gold border border-gold/20 px-3 py-2">{selectedTicket.status}</div>
               </div>
 
               <div className="flex-1 p-8 overflow-y-auto space-y-8 bg-[url('/noise.png')] opacity-95">
-                 {/* Internal Log Entry */}
-                 <div className="flex flex-col items-center">
-                    <span className="px-4 py-1 bg-gold/5 border border-gold/10 font-mono text-[7px] tracking-[0.4em] text-gold/60 uppercase">
-                      Session Encrypted & Authenticated
-                    </span>
-                 </div>
+                 {selectedTicket.messages?.map((entry, idx) => {
+                   const isAdmin = entry.sender === 'ADMIN';
+                   return (
+                     <div key={`${entry.createdAt || idx}-${idx}`} className={`max-w-[80%] flex flex-col gap-2 ${isAdmin ? 'ml-auto items-end' : ''}`}>
+                       <div className={`p-5 border leading-relaxed text-sm ${isAdmin ? 'bg-gold/10 border-gold/20 text-cream/90' : 'bg-navy border-gold/10 text-cream/80'}`}>
+                         {entry.text}
+                       </div>
+                       <span className={`font-mono text-[8px] tracking-[0.2em] uppercase px-1 ${isAdmin ? 'text-gold' : 'text-cream/30'}`}>
+                         {entry.sender} • {formatDate(entry.createdAt)}
+                       </span>
+                     </div>
+                   );
+                 })}
 
-                 {/* User Message */}
-                 <div className="max-w-[80%] flex flex-col gap-2">
-                    <div className="p-6 bg-navy border border-gold/10 font-light text-cream/80 leading-relaxed text-sm">
-                       Greetings Mission Control. I am writing to inquire about the current location of my recent acquisition, Order ORD-7721. The operational status has been stuck at &apos;Processing&apos; for the last 48 hours. I require a tactical update on the logistics.
-                    </div>
-                    <span className="font-mono text-[8px] tracking-[0.2em] text-cream/30 uppercase px-1">JULIAN VOSS • 12:42 PM</span>
-                 </div>
-
-                 {/* System/Admin Message */}
-                 <div className="max-w-[80%] ml-auto flex flex-col items-end gap-2">
-                    <div className="p-6 bg-gold/10 border border-gold/20 font-light text-cream/90 leading-relaxed text-sm">
-                       Understood, Julian. We are currently calibrating the final hand-polish on your Architect frame. Logistics suggests a 06:00 dispatch window tomorrow. You will receive a secure QR tracking payload upon clearance.
-                    </div>
-                    <span className="font-mono text-[8px] tracking-[0.2em] text-gold uppercase px-1">ARCHIVE DISPATCH • 12:50 PM • ✓ READ</span>
-                 </div>
+                 {!selectedTicket.messages?.length && (
+                   <div className="text-sm text-cream/50">No conversation history yet.</div>
+                 )}
               </div>
 
-              <div className="p-8 border-t border-gold/5 bg-navy/30">
+              <form className="p-8 border-t border-gold/5 bg-navy/30" onSubmit={sendReply}>
                  <div className="flex gap-4">
                     <div className="flex-1 relative">
-                       <input 
-                         type="text" 
-                         placeholder="TRANSMIT RESPONSE..." 
+                       <input
+                         type="text"
+                         value={message}
+                         onChange={(event) => setMessage(event.target.value)}
+                         placeholder="Transmit response..."
                          className="w-full bg-navy border border-gold/10 p-5 font-mono text-[10px] tracking-widest outline-none focus:border-gold/30 transition-all text-cream"
                        />
-                       <button className="absolute right-4 top-1/2 -translate-y-1/2 text-gold/30 hover:text-gold transition-colors">
+                       <button type="submit" disabled={isSending} className="absolute right-4 top-1/2 -translate-y-1/2 text-gold/40 hover:text-gold transition-colors disabled:opacity-50">
                          <Send className="w-5 h-5" />
                        </button>
                     </div>
-                    <button className="px-8 border border-gold/10 text-gold hover:bg-gold/5 transition-all">
-                      <AlertCircle className="w-5 h-5" />
-                    </button>
+                </div>
+                 <div className="mt-3 text-[10px] font-mono text-cream/30 uppercase tracking-[0.2em]">
+                   {isSending ? 'Dispatching response...' : 'Press Enter to dispatch'}
                  </div>
-                 <div className="mt-4 flex gap-6 font-mono text-[7px] tracking-[0.3em] text-cream/20 uppercase">
-                    <span>Press Ctrl+Enter to dispatch</span>
-                    <span className="text-teal">System Operational</span>
-                 </div>
-              </div>
+              </form>
             </>
           ) : (
             <div className="flex-1 flex flex-center items-center justify-center opacity-20 flex-col gap-4">

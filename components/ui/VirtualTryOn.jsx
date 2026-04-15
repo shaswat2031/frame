@@ -83,7 +83,7 @@ export default function VirtualTryOn() {
     const canvas = canvasRef.current
     if (!canvas) return
     const link = document.createElement('a')
-    link.download = 'my-EYECONIC-look.png'
+    link.download = 'my-EYELOVEYOU-look.png'
     link.href = canvas.toDataURL('image/png')
     link.click()
   }

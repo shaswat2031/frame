@@ -1,6 +1,6 @@
 'use client';
-import { useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
@@ -8,20 +8,42 @@ import Image from 'next/image';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const technicalSpecs = [
-  { label: 'Optical Engine v4.0', value: 'ACTIVE', color: 'text-teal' },
-  { label: 'Precision Clarity', value: '99.9%', color: 'text-gold' },
-  { label: 'V.ACUITY 20/20', value: 'CERTIFIED', color: 'text-teal' },
-  { label: 'DIOPTER CTRL', value: 'AUTO', color: 'text-gold' },
-  { label: 'ZEISS-87 LENS', value: 'POLARIZED', color: 'text-teal' },
-  { label: 'BLUE LIGHT SHIELD', value: 'ENABLED', color: 'text-gold' },
-  { label: 'FRAME WEIGHT', value: '18.4g', color: 'text-teal' },
-  { label: 'SATELLITE SYNC', value: 'READY', color: 'text-gold' },
-]
+const heroImages = [
+  "/imagehero1.png",
+  "/hero2.png"
+];
+
+const heroContent = [
+  {
+    title: (
+      <>
+        SEE THE <br />
+        <span className="italic font-serif text-gold-gradient">UNSEEN.</span>
+      </>
+    ),
+    description: "Engineering the perfect balance between architectural precision and timeless editorial aesthetics. Explore our curated selection of global masterpieces."
+  },
+  {
+    title: (
+      <>
+        CRAFTING <br />
+        <span className="italic font-serif text-gold-gradient">LEGENDS.</span>
+      </>
+    ),
+    description: "Discover a collection where heritage meets innovation. Our frames are meticulously handcrafted for the modern visionary who demands excellence."
+  }
+];
 
 export default function Hero() {
   const containerRef = useRef(null);
-  const imageRef = useRef(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 4000); // Change image every 4 seconds
+    return () => clearInterval(timer);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -59,13 +81,25 @@ export default function Hero() {
       >
         <div className="absolute inset-0 bg-gradient-to-b from-navy/90 via-navy/40 to-navy z-10" />
         <div className="absolute inset-0 bg-gradient-to-r from-navy via-transparent to-navy/30 z-10" />
-        <Image
-          src="/hero-bg.png"
-          alt="Premium Luxury Eyewear Background"
-          fill
-          priority
-          className="object-cover object-center scale-110"
-        />
+        
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentImageIndex}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1.1 }}
+            exit={{ opacity: 0, scale: 1.15 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="absolute inset-0"
+          >
+            <Image
+              src={heroImages[currentImageIndex]}
+              alt="Premium Luxury Eyewear Background"
+              fill
+              priority
+              className="object-cover object-center"
+            />
+          </motion.div>
+        </AnimatePresence>
       </motion.div>
 
       <div className="container mx-auto px-6 relative z-20 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -86,53 +120,23 @@ export default function Hero() {
           </motion.div>
 
           {/* Headline */}
-          <motion.div variants={itemVariants} className="space-y-4">
-            <h1 className="text-7xl md:text-9xl font-light text-cream leading-[0.9] tracking-tighter">
-              SEE THE <br />
-              <span className="italic font-serif text-gold-gradient">UNSEEN.</span>
-            </h1>
-            <p className="text-cream/60 text-lg md:text-xl font-light max-w-lg leading-relaxed border-l border-gold/20 pl-6">
-              Engineering the perfect balance between architectural precision and timeless editorial aesthetics. Explore our curated selection of global masterpieces.
-            </p>
-          </motion.div>
-
-          {/* ── TECHNICAL SCROLL BANNER ── */}
-          <motion.div
-            variants={itemVariants}
-            className="group relative w-full max-w-xl py-6 border-y border-gold/10 overflow-hidden bg-gradient-to-r from-gold/5 via-transparent to-transparent backdrop-blur-sm"
-          >
-            {/* Shimmer Effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent -translate-x-full group-hover:animate-shimmer" />
-
-            <div className="flex whitespace-nowrap overflow-hidden">
+          <motion.div variants={itemVariants} className="space-y-4 min-h-[300px] flex flex-col justify-center">
+            <AnimatePresence mode="wait">
               <motion.div
-                animate={{ x: [0, -1000] }}
-                transition={{
-                  duration: 40,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-                className="flex items-center gap-12"
+                key={currentImageIndex}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
               >
-                {[...Array(3)].map((_, i) => (
-                  <div key={i} className="flex items-center gap-12">
-                    {technicalSpecs.map((spec, idx) => (
-                      <div key={idx} className="flex items-center gap-3">
-                        <span className="text-[9px] uppercase tracking-widest text-cream/40 font-mono">
-                          {spec.label}
-                        </span>
-                        <span className={`text-[9px] font-bold font-mono px-2 py-0.5 rounded ${spec.color === 'text-teal' ? 'bg-teal/10 text-teal' : 'bg-gold/10 text-gold'}`}>
-                          {spec.value}
-                        </span>
-                        {idx !== technicalSpecs.length - 1 && (
-                          <span className="w-1 h-1 rounded-full bg-gold/20 mx-2" />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ))}
+                <h1 className="text-7xl md:text-9xl font-light text-cream leading-[0.9] tracking-tighter mb-6">
+                  {heroContent[currentImageIndex].title}
+                </h1>
+                <p className="text-cream/60 text-lg md:text-xl font-light max-w-lg leading-relaxed border-l border-gold/20 pl-6">
+                  {heroContent[currentImageIndex].description}
+                </p>
               </motion.div>
-            </div>
+            </AnimatePresence>
           </motion.div>
 
           {/* ── CTAs ── */}
@@ -194,12 +198,23 @@ export default function Hero() {
             className="w-full h-full relative z-10 rounded-[40px] overflow-hidden shadow-2xl"
           >
             <div className="absolute inset-0 bg-gradient-to-tr from-navy/40 via-transparent to-gold/10 pointer-events-none z-20" />
-            <Image
-              src="/hero-bg.png"
-              alt="Eyewear Portrait"
-              fill
-              className="object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-105"
-            />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentImageIndex}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1 }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={heroImages[currentImageIndex]}
+                  alt="Eyewear Portrait"
+                  fill
+                  className="object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-105"
+                />
+              </motion.div>
+            </AnimatePresence>
           </motion.div>
 
           {/* Precision HUD elements */}

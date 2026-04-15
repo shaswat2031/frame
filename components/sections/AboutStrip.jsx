@@ -38,7 +38,7 @@ export default function AboutStrip() {
               <span className="text-gold italic">Since 1987</span>
             </h2>
             <p className="text-cream/50 text-lg font-light leading-relaxed">
-              EYECONIC by Punjab Optical represents over three decades of optical excellence. We don&apos;t just sell frames; we curate vision as a lifestyle choice. From the heart of Punjab to the world&apos;s luxury hubs.
+              EYELOVEYOU by Punjab Optical represents over three decades of optical excellence. We don&apos;t just sell frames; we curate vision as a lifestyle choice. From the heart of Punjab to the world&apos;s luxury hubs.
             </p>
           </div>
 
