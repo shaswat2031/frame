@@ -15,6 +15,8 @@
   --background: #FCFAF7;
   --navy-rgb: 252, 250, 247;
   --gold-rgb: 166, 138, 59;
+  --cream-rgb: 18, 20, 24;
+  --teal-rgb: 51, 126, 119;
 }
 
 .dark-mode {
@@ -28,6 +30,10 @@
   --teal: #7ECAC3;
   --foreground: #F7F4EF;
   --background: #0A0E1A;
+  --navy-rgb: 10, 14, 26;
+  --gold-rgb: 201, 168, 76;
+  --cream-rgb: 247, 244, 239;
+  --teal-rgb: 126, 202, 195;
 }
 
 @layer base {

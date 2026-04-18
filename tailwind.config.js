@@ -9,23 +9,23 @@ module.exports = {
     extend: {
       colors: {
         navy: { 
-          DEFAULT: 'var(--navy)', 
+          DEFAULT: 'rgb(var(--navy-rgb) / <alpha-value>)', 
           deep: 'var(--navy-deep)', 
           surface: 'var(--navy-surface)' 
         },
         gold: { 
-          DEFAULT: 'var(--gold)', 
+          DEFAULT: 'rgb(var(--gold-rgb) / <alpha-value>)', 
           light: 'var(--gold-light)', 
           muted: '#8B6F2E', 
           pale: '#F5EDD6' 
         },
         cream: { 
-          DEFAULT: 'var(--cream)', 
+          DEFAULT: 'rgb(var(--cream-rgb) / <alpha-value>)', 
           warm: 'var(--cream-warm)', 
           dim: 'rgba(247,244,239,0.55)' 
         },
         teal: { 
-          DEFAULT: 'var(--teal)', 
+          DEFAULT: 'rgb(var(--teal-rgb) / <alpha-value>)', 
           dark: '#3A9990' 
         },
         obsidian: '#0D0F14',

@@ -54,31 +54,31 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex flex-col group relative">
           <motion.span 
-            className="text-2xl font-serif text-gold tracking-[0.4em] font-light leading-none group-hover:text-gold-light transition-colors"
+            className="text-2xl font-serif tracking-[0.4em] font-black leading-none transition-colors"
+            style={{ color: '#D4AF37' }}
           >
             EYELOVEYOU
           </motion.span>
           <div className="flex items-center gap-2 mt-1.5">
-            <span className="h-px w-4 bg-gold/30" />
-            <span className="text-[8px] uppercase tracking-[0.3em] text-teal/60 font-mono">
+            <span className="h-px w-4" style={{ backgroundColor: '#D4AF37' }} />
+            <span className="text-[8px] uppercase tracking-[0.3em] font-black font-mono" style={{ color: '#D4AF37', opacity: 0.7 }}>
               Punjab Optical · Est. 1987
             </span>
           </div>
           {/* Subtle Logo Glow */}
-          <div className="absolute -inset-4 bg-gold/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+          <div className="absolute -inset-4 bg-gold/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
         </Link>
 
-        {/* Desktop Nav */}
         <div className="hidden lg:flex items-center space-x-8">
           {navLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
-              className="relative text-cream/70 hover:text-gold transition-colors text-sm uppercase tracking-widest group px-1"
+              className="relative text-[#D4AF37] hover:text-[#FFD700] transition-colors text-sm uppercase tracking-widest font-black group px-1"
             >
               {link.name}
               <motion.span
-                className="absolute -bottom-1 left-0 w-full h-[1px] bg-gold origin-left"
+                className="absolute -bottom-1 left-0 w-full h-[2px] bg-[#D4AF37] origin-left shadow-[0_0_10px_rgba(212,175,55,0.8)]"
                 initial={{ scaleX: 0 }}
                 whileHover={{ scaleX: 1 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
@@ -91,31 +91,37 @@ export default function Navbar() {
         <div className="flex items-center space-x-6">
           <button 
             onClick={() => setIsSearchOpen(true)}
-            className="text-cream/70 hover:text-gold transition-colors hidden md:block"
+            className="transition-colors hidden md:block"
+            style={{ color: '#D4AF37' }}
           >
-            <Search size={20} />
+            <Search size={22} className="stroke-[2.5px]" />
           </button>
           <button 
-            className="text-cream/70 hover:text-gold transition-colors relative"
+            className="transition-colors relative"
             onClick={() => setIsCartOpen(true)}
+            style={{ color: '#D4AF37' }}
           >
-            <ShoppingCart size={20} />
+            <ShoppingCart size={22} className="stroke-[2.5px]" />
             {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-teal text-navy text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-[#D4AF37] text-white text-[10px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center border border-white shadow-lg">
                 {cartCount}
               </span>
             )}
           </button>
-          <button className="hidden sm:block border border-gold px-5 py-2 text-[10px] uppercase tracking-widest text-gold hover:bg-gold hover:text-navy transition-all duration-300">
+          <button 
+            className="hidden sm:block border-2 px-6 py-2.5 text-[10px] uppercase tracking-widest font-black transition-all duration-300"
+            style={{ borderColor: '#D4AF37', color: '#D4AF37' }}
+          >
             Book Eye Test
           </button>
 
           {/* Mobile Menu Toggle */}
           <button
-            className="lg:hidden text-gold"
+            className="lg:hidden"
             onClick={() => setIsMobileMenuOpen(true)}
+            style={{ color: '#D4AF37' }}
           >
-            <Menu size={24} />
+            <Menu size={28} />
           </button>
         </div>
       </div>
@@ -128,9 +134,10 @@ export default function Navbar() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-navy z-[60] flex flex-col p-8"
+            className="fixed inset-0 bg-navy z-[60] flex flex-col p-8 border-l border-gold/10"
           >
-            <div className="flex justify-end">
+            <div className="flex justify-between items-center">
+              <span className="font-serif text-gold tracking-widest text-xl">VISIO</span>
               <button onClick={() => setIsMobileMenuOpen(false)} className="text-gold">
                 <X size={32} />
               </button>
@@ -140,14 +147,15 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="text-3xl font-serif text-cream hover:text-gold transition-colors"
+                  className="text-3xl font-serif text-gold/70 hover:text-gold transition-colors flex items-center gap-4"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
+                  <span className="w-6 h-px bg-gold/30" />
                   {link.name}
                 </Link>
               ))}
-              <div className="pt-8 border-t border-gold/10">
-                <button className="w-full border border-gold py-4 text-gold uppercase tracking-widest text-sm">
+              <div className="pt-8 border-t border-gold/20">
+                <button className="w-full border-2 border-gold py-4 text-gold font-black uppercase tracking-widest text-sm shadow-xl">
                   Book Eye Test
                 </button>
               </div>

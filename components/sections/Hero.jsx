@@ -16,19 +16,19 @@ const heroImages = [
 const heroContent = [
   {
     title: (
-      <>
+      <span className="text-[#D4AF37] font-black uppercase" style={{ textShadow: '0 0 40px rgba(0,0,0,0.6), 0 0 10px rgba(0,0,0,0.8)' }}>
         SEE THE <br />
-        <span className="italic font-serif text-gold-gradient">UNSEEN.</span>
-      </>
+        <span className="italic font-serif">UNSEEN.</span>
+      </span>
     ),
     description: "Engineering the perfect balance between architectural precision and timeless editorial aesthetics. Explore our curated selection of global masterpieces."
   },
   {
     title: (
-      <>
+      <span className="text-[#D4AF37] font-black uppercase" style={{ textShadow: '0 0 40px rgba(0,0,0,0.6), 0 0 10px rgba(0,0,0,0.8)' }}>
         CRAFTING <br />
-        <span className="italic font-serif text-gold-gradient">LEGENDS.</span>
-      </>
+        <span className="italic font-serif">LEGENDS.</span>
+      </span>
     ),
     description: "Discover a collection where heritage meets innovation. Our frames are meticulously handcrafted for the modern visionary who demands excellence."
   }
@@ -41,7 +41,7 @@ export default function Hero() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
-    }, 4000); // Change image every 4 seconds
+    }, 4500); // Change image every 4.5 seconds
     return () => clearInterval(timer);
   }, []);
 
@@ -85,10 +85,10 @@ export default function Hero() {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentImageIndex}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1.1 }}
-            exit={{ opacity: 0, scale: 1.15 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1.05 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
             className="absolute inset-0"
           >
             <Image
@@ -114,7 +114,7 @@ export default function Hero() {
           {/* Eyebrow pill */}
           <motion.div variants={itemVariants} className="inline-flex items-center gap-3">
             <span className="w-8 h-px bg-gold/50" />
-            <span className="text-[10px] text-gold uppercase tracking-[0.3em] font-medium">
+            <span className="text-[10px] text-gold uppercase tracking-[0.3em] font-black">
               Established 1987 / Luxury Eyewear
             </span>
           </motion.div>
@@ -129,10 +129,10 @@ export default function Hero() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
               >
-                <h1 className="text-7xl md:text-9xl font-light text-cream leading-[0.9] tracking-tighter mb-6">
+                <h1 className="text-7xl md:text-9xl font-black text-cream leading-[0.8] tracking-tighter mb-6 drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] uppercase">
                   {heroContent[currentImageIndex].title}
                 </h1>
-                <p className="text-cream/60 text-lg md:text-xl font-light max-w-lg leading-relaxed border-l border-gold/20 pl-6">
+                <p className="text-cream/80 text-lg md:text-xl font-medium max-w-lg leading-relaxed border-l-2 border-gold/40 pl-6 bg-navy/20 backdrop-blur-sm py-2">
                   {heroContent[currentImageIndex].description}
                 </p>
               </motion.div>
@@ -143,7 +143,7 @@ export default function Hero() {
           <motion.div variants={itemVariants} className="flex flex-wrap gap-6 pt-4">
             <button
               data-cursor="DISCOVER"
-              className="relative group overflow-hidden bg-gold text-navy px-10 py-5 text-[11px] uppercase tracking-[0.2em] font-bold transition-all duration-500 hover:shadow-[0_20px_40px_rgba(166,138,59,0.3)] hover:-translate-y-1"
+              className="relative group overflow-hidden bg-gold text-navy px-10 py-5 text-[11px] uppercase tracking-[0.2em] font-black transition-all duration-500 hover:shadow-[0_20px_40px_rgba(166,138,59,0.3)] hover:-translate-y-1"
             >
               <span className="relative z-10 transition-colors duration-500 group-hover:text-cream">Explore Collection</span>
               <div className="absolute inset-0 bg-cream translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
@@ -151,7 +151,7 @@ export default function Hero() {
             <Link
               href="/try-on"
               data-cursor="VIRTUAL"
-              className="group border border-cream/20 text-cream px-10 py-5 text-[11px] uppercase tracking-[0.2em] font-bold hover:border-gold transition-all duration-500 flex items-center gap-3"
+              className="group border-2 border-cream/20 text-cream px-10 py-5 text-[11px] uppercase tracking-[0.2em] font-black hover:border-gold transition-all duration-500 flex items-center gap-3"
             >
               Virtual Try-On
               <span className="w-2 h-2 rounded-full bg-gold group-hover:animate-pulse" />
@@ -168,8 +168,8 @@ export default function Hero() {
               { num: '100%', label: 'Precision Fit' },
             ].map((s) => (
               <div key={s.label} className="group cursor-default">
-                <span className="block text-2xl font-light text-cream group-hover:text-gold transition-colors duration-300">{s.num}</span>
-                <span className="text-[9px] uppercase tracking-[0.2em] text-gold/60">{s.label}</span>
+                <span className="block text-2xl font-black text-cream group-hover:text-gold transition-colors duration-300">{s.num}</span>
+                <span className="text-[9px] uppercase tracking-[0.2em] text-gold/80 font-bold">{s.label}</span>
               </div>
             ))}
           </motion.div>
@@ -181,8 +181,8 @@ export default function Hero() {
           className="hidden lg:block lg:col-span-6 relative h-[600px]"
         >
           {/* Decorative Elements */}
-          <div className="absolute inset-0 border border-gold/10 rounded-[40px] rotate-3 scale-95" />
-          <div className="absolute inset-0 border border-teal/10 rounded-[40px] -rotate-3 scale-105" />
+          <div className="absolute inset-0 border-2 border-gold/10 rounded-[40px] rotate-3 scale-95" />
+          <div className="absolute inset-0 border-2 border-teal/10 rounded-[40px] -rotate-3 scale-105" />
 
           <motion.div
             animate={{
@@ -195,23 +195,23 @@ export default function Hero() {
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            className="w-full h-full relative z-10 rounded-[40px] overflow-hidden shadow-2xl"
+            className="w-full h-full relative z-10 rounded-[40px] overflow-hidden shadow-2xl border-2 border-white/5"
           >
-            <div className="absolute inset-0 bg-gradient-to-tr from-navy/40 via-transparent to-gold/10 pointer-events-none z-20" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-navy/60 via-transparent to-gold/20 pointer-events-none z-20" />
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentImageIndex}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1 }}
+                initial={{ opacity: 0, scale: 1.1 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
                 className="absolute inset-0"
               >
                 <Image
                   src={heroImages[currentImageIndex]}
                   alt="Eyewear Portrait"
                   fill
-                  className="object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-105"
+                  className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                 />
               </motion.div>
             </AnimatePresence>
