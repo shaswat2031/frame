@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import TryOnModal from '@/components/ui/TryOnModal';
+import { useCart } from '@/components/providers/CartProvider';
 
 const filters = ['All', 'Men', 'Women', 'Kids', 'Sport', 'Luxury'];
 
@@ -15,6 +16,7 @@ const products = [
 ];
 
 export default function FeaturedFrames() {
+  const { addToCart } = useCart();
   const [activeFilter, setActiveFilter] = useState('All');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -63,15 +65,32 @@ export default function FeaturedFrames() {
                 </div>
 
                 {/* Hover Action */}
-                <div className="absolute inset-0 bg-navy/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div className="absolute inset-0 bg-navy/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col gap-3 items-center justify-center">
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
                       setIsModalOpen(true);
                     }}
-                    className="bg-cream text-navy px-6 py-2 text-[10px] uppercase tracking-widest font-bold hover:bg-gold transition-colors"
+                    className="w-40 bg-cream text-navy py-3 text-[10px] uppercase tracking-widest font-bold hover:bg-gold transition-colors"
                   >
                     Try Virtually
+                  </button>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // Create a clean product object for the cart
+                      const cartItem = {
+                        id: product.id || product.name.replace(/\s+/g, '-').toLowerCase(),
+                        name: product.name,
+                        price: parseInt(product.price.replace(/,/g, '')),
+                        brand: product.brand,
+                        category: product.category
+                      };
+                      addToCart(cartItem);
+                    }}
+                    className="w-40 border border-gold text-gold py-3 text-[10px] uppercase tracking-widest font-bold hover:bg-gold hover:text-navy transition-all"
+                  >
+                    Add to Bag
                   </button>
                 </div>
               </div>

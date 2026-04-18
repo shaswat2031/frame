@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ShoppingCart, User, Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { useCart } from '@/components/providers/CartProvider';
+import SearchOverlay from '@/components/ui/SearchOverlay';
 
 const navLinks = [
   { name: 'Shop', href: '/shop' },
@@ -13,8 +15,10 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const { cartCount, setIsCartOpen } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [bannerHeight, setBannerHeight] = useState(0);
 
   useEffect(() => {
@@ -44,15 +48,24 @@ export default function Navbar() {
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'glass-nav py-3' : 'bg-transparent py-6'
         }`}
     >
+      <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      
       <div className="container mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex flex-col group">
-          <span className="text-2xl font-serif text-gold tracking-[0.3em] font-light leading-none">
+        <Link href="/" className="flex flex-col group relative">
+          <motion.span 
+            className="text-2xl font-serif text-gold tracking-[0.4em] font-light leading-none group-hover:text-gold-light transition-colors"
+          >
             EYELOVEYOU
-          </span>
-          <span className="text-[9px] uppercase tracking-widest text-teal mt-1">
-            Punjab Optical · Est. 1987
-          </span>
+          </motion.span>
+          <div className="flex items-center gap-2 mt-1.5">
+            <span className="h-px w-4 bg-gold/30" />
+            <span className="text-[8px] uppercase tracking-[0.3em] text-teal/60 font-mono">
+              Punjab Optical · Est. 1987
+            </span>
+          </div>
+          {/* Subtle Logo Glow */}
+          <div className="absolute -inset-4 bg-gold/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
         </Link>
 
         {/* Desktop Nav */}
@@ -76,14 +89,22 @@ export default function Navbar() {
 
         {/* Right Actions */}
         <div className="flex items-center space-x-6">
-          <button className="text-cream/70 hover:text-gold transition-colors hidden md:block">
+          <button 
+            onClick={() => setIsSearchOpen(true)}
+            className="text-cream/70 hover:text-gold transition-colors hidden md:block"
+          >
             <Search size={20} />
           </button>
-          <button className="text-cream/70 hover:text-gold transition-colors relative">
+          <button 
+            className="text-cream/70 hover:text-gold transition-colors relative"
+            onClick={() => setIsCartOpen(true)}
+          >
             <ShoppingCart size={20} />
-            <span className="absolute -top-2 -right-2 bg-teal text-navy text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-              0
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-teal text-navy text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
           </button>
           <button className="hidden sm:block border border-gold px-5 py-2 text-[10px] uppercase tracking-widest text-gold hover:bg-gold hover:text-navy transition-all duration-300">
             Book Eye Test

@@ -30,17 +30,24 @@ export const metadata = {
 
 import Navbar from '@/components/layout/Navbar';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import CartProvider from '@/components/providers/CartProvider';
+import CartDrawer from '@/components/ui/CartDrawer';
+import BackgroundGlow from '@/components/ui/BackgroundGlow';
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${cormorant.variable} ${inter.variable} ${playfair.variable}`}>
       <body className="overflow-x-hidden antialiased">
+        <BackgroundGlow />
         <SmoothScroll>
           <NextAuthProvider>
-            <CustomCursor />
-            <ThemeToggle />
-            <Navbar />
-            {children}
+            <CartProvider>
+              <CustomCursor />
+              <ThemeToggle />
+              <CartDrawer />
+              <Navbar />
+              {children}
+            </CartProvider>
           </NextAuthProvider>
         </SmoothScroll>
       </body>

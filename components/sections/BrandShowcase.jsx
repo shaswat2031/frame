@@ -1,77 +1,248 @@
 'use client';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const brands = [
-  { slug: "ray-ban", name: "Ray-Ban", origin: "Milan, Italy", count: "142 styles", size: "large", gradient: "from-red-900/10 to-transparent" },
-  { slug: "oakley", name: "Oakley", origin: "California, USA", count: "89 styles", size: "small", gradient: "from-orange-900/10 to-transparent" },
-  { slug: "gucci", name: "Gucci", origin: "Florence, Italy", count: "112 styles", size: "small", gradient: "from-green-900/10 to-transparent" },
-  { slug: "prada", name: "Prada", origin: "Milan, Italy", count: "76 styles", size: "small", gradient: "from-gold/10 to-transparent" },
-  { slug: "versace", name: "Versace", origin: "Reggio Calabria, Italy", count: "94 styles", size: "small", gradient: "from-gold/20 to-transparent" },
-  { slug: "tom-ford", name: "Tom Ford", origin: "Austin, USA", count: "65 styles", size: "small", gradient: "from-stone-900/10 to-transparent" },
-  { slug: "carrera", name: "Carrera", origin: "Verona, Italy", count: "54 styles", size: "small", gradient: "from-blue-900/10 to-transparent" },
+  {
+    slug: "ray-ban",
+    name: "Ray-Ban",
+    origin: "Milan, Italy",
+    year: "1937",
+    count: 142,
+    image: "/brands/rayban.png",
+    accent: "#C41E3A",
+  },
+  {
+    slug: "oakley",
+    name: "Oakley",
+    origin: "California, USA",
+    year: "1975",
+    count: 89,
+    image: "/brands/oakley.png",
+    accent: "#F26F21",
+  },
+  {
+    slug: "gucci",
+    name: "Gucci",
+    origin: "Florence, Italy",
+    year: "1921",
+    count: 112,
+    image: "/brands/gucci.png",
+    accent: "#00A86B",
+  },
+  {
+    slug: "prada",
+    name: "Prada",
+    origin: "Milan, Italy",
+    year: "1913",
+    count: 76,
+    image: "/brands/prada.png",
+    accent: "#C9A84C",
+  },
+  {
+    slug: "versace",
+    name: "Versace",
+    origin: "Reggio Calabria, Italy",
+    year: "1978",
+    count: 94,
+    image: "/brands/versace.png",
+    accent: "#FFD700",
+  },
+  {
+    slug: "tom-ford",
+    name: "Tom Ford",
+    origin: "Austin, USA",
+    year: "2005",
+    count: 65,
+    image: "/brands/tomford.png",
+    accent: "#8B7355",
+  },
+  {
+    slug: "carrera",
+    name: "Carrera",
+    origin: "Verona, Italy",
+    year: "1956",
+    count: 54,
+    image: "/brands/carrera.png",
+    accent: "#1E90FF",
+  },
 ];
 
 export default function BrandShowcase() {
   return (
-    <section className="py-24 bg-navy">
-      <div className="container mx-auto px-6">
-        <div className="flex justify-between items-end mb-16">
+    <section className="py-28 relative overflow-hidden">
+      {/* Ambient section glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gold/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-6">
           <div>
-            <span className="text-teal uppercase tracking-[0.4em] text-[10px] font-bold mb-4 block">By Heritage</span>
-            <h2 className="text-5xl md:text-7xl font-serif tracking-tight italic text-cream">Buy Brand By Brand</h2>
+            <div className="flex items-center gap-4 mb-5">
+              <div className="w-10 h-px bg-gold/40" />
+              <span className="text-teal uppercase tracking-[0.5em] text-[9px] font-bold">By Heritage</span>
+            </div>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif tracking-tight text-cream leading-[0.95]">
+              Curated<br />
+              <span className="italic text-gold">Maisons</span>
+            </h2>
           </div>
-          <Link href="/collections" className="text-gold uppercase tracking-widest text-[10px] border-b border-gold/30 pb-2 hover:border-gold transition-all">
-            Explore All Brands →
+
+          <Link
+            href="/collections"
+            className="group flex items-center gap-3 text-gold/60 hover:text-gold transition-colors"
+          >
+            <span className="text-[10px] uppercase tracking-[0.4em]">All Brands</span>
+            <motion.span
+              className="inline-block"
+              whileHover={{ x: 4 }}
+            >
+              →
+            </motion.span>
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 h-auto md:h-[800px]">
-          {/* Main Large Card */}
+        {/* Bento Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[280px]">
+          {/* Hero Card — Ray-Ban */}
           <BrandCard
             data={brands[0]}
-            className="md:col-span-2 md:row-span-2 h-[400px] md:h-full"
+            className="md:col-span-7 md:row-span-2"
+            isHero
           />
 
-          <BrandCard data={brands[1]} className="h-[250px] md:h-full" />
-          <BrandCard data={brands[2]} className="h-[250px] md:h-full" />
+          {/* Oakley */}
+          <BrandCard
+            data={brands[1]}
+            className="md:col-span-5"
+          />
 
-          {/* Bottom Row */}
-          <BrandCard data={brands[3]} className="h-[250px] md:h-full" />
-          <BrandCard data={brands[4]} className="h-[250px] md:h-full" />
-          <BrandCard data={brands[5]} className="h-[250px] md:h-full" />
-          <BrandCard data={brands[6]} className="h-[250px] md:h-full" />
+          {/* Gucci */}
+          <BrandCard
+            data={brands[2]}
+            className="md:col-span-5"
+          />
+
+          {/* Bottom Row — 4 equal cards */}
+          <BrandCard data={brands[3]} className="md:col-span-3" />
+          <BrandCard data={brands[4]} className="md:col-span-3" />
+          <BrandCard data={brands[5]} className="md:col-span-3" />
+          <BrandCard data={brands[6]} className="md:col-span-3" />
+        </div>
+
+        {/* Bottom Stat Bar */}
+        <div className="mt-16 flex flex-wrap items-center justify-center gap-x-12 gap-y-4 py-6 border-t border-b border-gold/10">
+          {[
+            { label: 'Brands', value: '7' },
+            { label: 'Collections', value: '632' },
+            { label: 'Countries', value: '3' },
+            { label: 'Since', value: '1913' },
+          ].map((stat) => (
+            <div key={stat.label} className="flex items-baseline gap-2">
+              <span className="text-2xl md:text-3xl font-serif text-gold">{stat.value}</span>
+              <span className="text-[9px] uppercase tracking-[0.3em] text-cream/30">{stat.label}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function BrandCard({ data, className }) {
+function BrandCard({ data, className = '', isHero = false }) {
   return (
-    <Link href={`/brand/${data.slug}`}>
+    <Link href={`/brand/${data.slug}`} className={`block ${className}`}>
       <motion.div
-        whileHover={{ scale: 1.02 }}
-        className={`relative group rounded-3xl overflow-hidden bg-navy-surface border border-gold/5 cursor-pointer h-full ${className}`}
+        whileHover="hover"
+        initial="rest"
+        className="relative w-full h-full rounded-2xl overflow-hidden cursor-pointer group"
+        style={{ minHeight: isHero ? '560px' : '280px' }}
       >
-        <div className={`absolute inset-0 bg-gradient-to-br ${data.gradient} opacity-40 group-hover:opacity-60 transition-opacity duration-700`} />
+        {/* Background Image */}
+        <Image
+          src={data.image}
+          alt={data.name}
+          fill
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          sizes={isHero ? '60vw' : '30vw'}
+        />
 
-        {/* Abstract Optical Graphics */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-5 group-hover:opacity-10 transition-all duration-1000 group-hover:scale-125">
-          <div className="w-64 h-64 border border-cream rounded-full animate-float" style={{ animationDelay: '1s' }} />
-          <div className="absolute w-40 h-40 border border-gold rounded-full" />
+        {/* Gradient Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10 z-10" />
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10"
+          style={{
+            background: `linear-gradient(135deg, ${data.accent}15 0%, transparent 60%)`,
+          }}
+        />
+
+        {/* Accent highlight line at the top */}
+        <motion.div
+          className="absolute top-0 left-0 right-0 h-[2px] z-20 origin-left"
+          style={{ backgroundColor: data.accent }}
+          variants={{
+            rest: { scaleX: 0 },
+            hover: { scaleX: 1 },
+          }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        />
+
+        {/* Year Badge */}
+        <div className="absolute top-5 right-5 z-20">
+          <span className="text-[9px] font-mono tracking-widest text-white/30 group-hover:text-white/60 transition-colors">
+            EST. {data.year}
+          </span>
         </div>
 
-        <div className="absolute bottom-0 left-0 p-10 w-full z-10">
-          <span className="text-[8px] uppercase tracking-widest text-teal font-bold mb-2 block">{data.origin}</span>
-          <h3 className="text-3xl md:text-4xl font-serif text-cream italic tracking-tight group-hover:text-gold transition-colors">{data.name}</h3>
-          <div className="w-0 group-hover:w-16 h-[1px] bg-gold mt-4 transition-all duration-500" />
-          <p className="text-cream/30 text-[9px] uppercase tracking-widest mt-4 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 duration-500">
-            Discover {data.count}
-          </p>
+        {/* Content */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-20">
+          {/* Origin */}
+          <div className="flex items-center gap-2 mb-2">
+            <div
+              className="w-1.5 h-1.5 rounded-full opacity-60"
+              style={{ backgroundColor: data.accent }}
+            />
+            <span className="text-[8px] uppercase tracking-[0.3em] text-white/40 font-mono">
+              {data.origin}
+            </span>
+          </div>
+
+          {/* Brand Name */}
+          <h3
+            className={`font-serif text-white group-hover:text-white transition-colors tracking-tight leading-none ${
+              isHero ? 'text-5xl md:text-7xl' : 'text-3xl md:text-4xl'
+            }`}
+          >
+            {data.name}
+          </h3>
+
+          {/* Expandable footer */}
+          <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/10 group-hover:border-white/20 transition-colors">
+            <span className="text-[10px] uppercase tracking-widest text-white/30 group-hover:text-white/50 transition-colors">
+              {data.count} Styles
+            </span>
+
+            <motion.div
+              className="flex items-center gap-2 text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              style={{ color: data.accent }}
+            >
+              <span>Explore</span>
+              <motion.span
+                variants={{
+                  rest: { x: 0 },
+                  hover: { x: 4 },
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                →
+              </motion.span>
+            </motion.div>
+          </div>
         </div>
 
-        <div className="absolute inset-0 border border-gold/0 group-hover:border-gold/20 transition-all duration-500 rounded-3xl pointer-events-none" />
+        {/* Subtle inner border glow on hover */}
+        <div className="absolute inset-0 rounded-2xl border border-white/0 group-hover:border-white/10 transition-all duration-500 z-20 pointer-events-none" />
       </motion.div>
     </Link>
   );

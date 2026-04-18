@@ -39,7 +39,7 @@ export default function LensMachineDemo() {
       setTint(config.tint);
       setActiveLens(id);
       setIsTransitioning(false);
-    }, 450);
+    }, 200);
   };
 
   return (

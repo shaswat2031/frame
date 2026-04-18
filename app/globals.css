@@ -60,9 +60,22 @@
   }
 
   .glass-nav {
-    background-color: rgba(var(--navy-rgb, 10, 14, 26), 0.8);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(var(--gold-rgb, 201, 168, 76), 0.1);
+    background-color: rgba(var(--navy-rgb, 10, 14, 26), 0.75);
+    backdrop-filter: blur(25px) saturate(180%);
+    border-bottom: 1px solid rgba(var(--gold-rgb, 201, 168, 76), 0.15);
+  }
+
+  .premium-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--gold-rgb), 0.1);
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .premium-card:hover {
+    border-color: rgba(var(--gold-rgb), 0.4);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(201, 168, 76, 0.1);
   }
 
   .perspective-1000 {

@@ -3,10 +3,13 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getMockProducts } from '@/lib/mock-feed';
+import { useCart } from '@/components/providers/CartProvider';
 
 const products = getMockProducts();
 
 export default function ShopPage() {
+  const { addToCart } = useCart();
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -78,71 +81,78 @@ export default function ShopPage() {
                 transition={{ delay: 0.1 * idx, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 className="group flex flex-col"
               >
-                <Link href={`/shop/${product.id}`} className="cursor-pointer">
-                  {/* Product Image Area */}
-                  <div 
-                    className="relative aspect-[3/4] w-full mb-6 overflow-hidden bg-navy-surface transition-colors duration-500"
-                  >
-                    <div className="absolute inset-0 border border-gold/10 transition-all duration-500 z-10 group-hover:border-gold/40" />
-                    
-                    {/* Decorative corner accents */}
-                    <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-transparent transition-colors duration-500 z-20 group-hover:border-gold" />
-                    <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-transparent transition-colors duration-500 z-20 group-hover:border-gold" />
-                    <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-transparent transition-colors duration-500 z-20 group-hover:border-gold" />
-                    <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-transparent transition-colors duration-500 z-20 group-hover:border-gold" />
-                    
-                    {/* Placeholder for Product Image */}
-                    <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                      {product.image ? (
-                        <Image 
-                          src={product.image} 
-                          alt={product.name} 
-                          fill 
-                          className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                        />
-                      ) : (
-                        <span className="text-cream/20 font-mono text-[10px] tracking-[0.2em]">[ {product.id} ] {/* RENDER_SHOT_01 */}</span>
-                      )}
-                    </div>
-
-                    {/* Stock Badge */}
-                    <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
-                      <span 
-                        className={`w-1.5 h-1.5 rounded-full animate-pulse ${
-                          product.stock === 'IN STOCK' ? 'bg-teal' : 
-                          (product.stock === 'LIMITED' ? 'bg-gold' : 'bg-transparent border border-cream/50')
-                        }`} 
+                <div className="relative aspect-[3/4] w-full mb-6 overflow-hidden bg-navy-surface transition-colors duration-500">
+                  <div className="absolute inset-0 border border-gold/10 transition-all duration-500 z-10 group-hover:border-gold/40" />
+                  
+                  {/* Decorative corner accents */}
+                  <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-transparent transition-colors duration-500 z-20 group-hover:border-gold" />
+                  <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-transparent transition-colors duration-500 z-20 group-hover:border-gold" />
+                  <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-transparent transition-colors duration-500 z-20 group-hover:border-gold" />
+                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-transparent transition-colors duration-500 z-20 group-hover:border-gold" />
+                  
+                  {/* Placeholder for Product Image */}
+                  <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+                    {product.image ? (
+                      <Image 
+                        src={product.image} 
+                        alt={product.name} 
+                        fill 
+                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
                       />
-                      <span className="text-[8px] font-mono tracking-[0.2em] text-cream/70 bg-navy/40 backdrop-blur-sm px-2 py-0.5">{product.stock}</span>
-                    </div>
-
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-navy/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-30 backdrop-blur-[2px]">
-                      <span 
-                        className="px-8 py-3 text-[10px] tracking-[0.2em] font-mono border border-gold text-gold bg-navy transition-all duration-300 transform translate-y-4 group-hover:translate-y-0"
-                      >
-                        VIEW PIECE
-                      </span>
-                    </div>
+                    ) : (
+                      <span className="text-cream/20 font-mono text-[10px] tracking-[0.2em]">[ {product.id} ]</span>
+                    )}
                   </div>
 
-                  {/* Product Meta */}
-                  <div className="flex justify-between items-start">
-                    <div className="space-y-1">
-                      <div className="flex flex-wrap gap-2 mb-2">
-                        <span className="inline-flex items-center border border-gold/20 px-2 py-1 text-[8px] tracking-[0.2em] font-mono text-gold uppercase">{product.brand}</span>
-                        <span className="inline-flex items-center border border-cream/10 px-2 py-1 text-[8px] tracking-[0.2em] font-mono text-cream/60 uppercase">{product.category}</span>
-                      </div>
+                  {/* Stock Badge */}
+                  <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+                    <span 
+                      className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                        product.stock === 'IN STOCK' ? 'bg-teal' : 
+                        (product.stock === 'LIMITED' ? 'bg-gold' : 'bg-transparent border border-cream/50')
+                      }`} 
+                    />
+                    <span className="text-[8px] font-mono tracking-[0.2em] text-cream/70 bg-navy/40 backdrop-blur-sm px-2 py-0.5">{product.stock}</span>
+                  </div>
+
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-navy/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-30 backdrop-blur-[2px] gap-4">
+                    <Link 
+                      href={`/shop/${product.id}`}
+                      className="w-40 text-center py-3 text-[10px] tracking-[0.2em] font-mono border border-gold text-gold bg-navy hover:bg-gold hover:text-navy transition-all duration-300"
+                    >
+                      VIEW PIECE
+                    </Link>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart(product);
+                      }}
+                      className="w-40 text-center py-3 text-[10px] tracking-[0.2em] font-mono border border-cream/20 text-cream bg-transparent hover:bg-cream hover:text-navy transition-all duration-300"
+                    >
+                      QUICK ADD
+                    </button>
+                  </div>
+                </div>
+
+                {/* Product Meta */}
+                <div className="flex justify-between items-start">
+                  <div className="space-y-1 flex-1">
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      <span className="inline-flex items-center border border-gold/20 px-2 py-1 text-[8px] tracking-[0.2em] font-mono text-gold uppercase">{product.brand}</span>
+                      <span className="inline-flex items-center border border-cream/10 px-2 py-1 text-[8px] tracking-[0.2em] font-mono text-cream/60 uppercase">{product.category}</span>
+                    </div>
+                    <Link href={`/shop/${product.id}`}>
                       <h3 className="text-xl font-light tracking-wide group-hover:text-gold transition-colors">{product.name}</h3>
-                      <p className="font-mono text-[10px] tracking-[0.15em] text-cream/60">
-                        {product.id} {'//'} {product.details}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-lg font-serif italic text-gold">${product.price}</span>
-                    </div>
+                    </Link>
+                    <p className="font-mono text-[10px] tracking-[0.15em] text-cream/60">
+                      {product.id} {'//'} {product.details}
+                    </p>
                   </div>
-                </Link>
+                  <div className="text-right ml-4">
+                    <span className="text-lg font-serif italic text-gold">${product.price}</span>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
