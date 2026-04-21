@@ -104,31 +104,31 @@ export default function BrandShowcase() {
         </div>
 
         {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[280px]">
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-4 auto-rows-[200px] sm:auto-rows-[240px] md:auto-rows-[280px]">
           {/* Hero Card — Ray-Ban */}
           <BrandCard
             data={brands[0]}
-            className="md:col-span-7 md:row-span-2"
+            className="col-span-2 row-span-2 md:col-span-7 md:row-span-2"
             isHero
           />
 
           {/* Oakley */}
           <BrandCard
             data={brands[1]}
-            className="md:col-span-5"
+            className="col-span-1 md:col-span-5"
           />
 
           {/* Gucci */}
           <BrandCard
             data={brands[2]}
-            className="md:col-span-5"
+            className="col-span-1 md:col-span-5"
           />
 
           {/* Bottom Row — 4 equal cards */}
-          <BrandCard data={brands[3]} className="md:col-span-3" />
-          <BrandCard data={brands[4]} className="md:col-span-3" />
-          <BrandCard data={brands[5]} className="md:col-span-3" />
-          <BrandCard data={brands[6]} className="md:col-span-3" />
+          <BrandCard data={brands[3]} className="col-span-1 md:col-span-3" />
+          <BrandCard data={brands[4]} className="col-span-1 md:col-span-3" />
+          <BrandCard data={brands[5]} className="col-span-1 md:col-span-3" />
+          <BrandCard data={brands[6]} className="col-span-1 md:col-span-3" />
         </div>
 
         {/* Bottom Stat Bar */}
@@ -157,7 +157,6 @@ function BrandCard({ data, className = '', isHero = false }) {
         whileHover="hover"
         initial="rest"
         className="relative w-full h-full rounded-2xl overflow-hidden cursor-pointer group"
-        style={{ minHeight: isHero ? '560px' : '280px' }}
       >
         {/* Background Image */}
         <Image
@@ -189,21 +188,21 @@ function BrandCard({ data, className = '', isHero = false }) {
         />
 
         {/* Year Badge */}
-        <div className="absolute top-5 right-5 z-20">
-          <span className="text-[9px] font-mono tracking-widest text-white/30 group-hover:text-white/60 transition-colors">
+        <div className="absolute top-4 right-4 md:top-5 md:right-5 z-20">
+          <span className="text-[7px] md:text-[9px] font-mono tracking-widest text-white/30 group-hover:text-white/60 transition-colors">
             EST. {data.year}
           </span>
         </div>
 
         {/* Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-20">
+        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-8 z-20">
           {/* Origin */}
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center gap-1.5 md:gap-2 mb-1.5 md:mb-2">
             <div
               className="w-1.5 h-1.5 rounded-full opacity-60"
               style={{ backgroundColor: data.accent }}
             />
-            <span className="text-[8px] uppercase tracking-[0.3em] text-white/40 font-mono">
+            <span className="text-[7px] md:text-[8px] uppercase tracking-[0.2em] md:tracking-[0.3em] text-white/40 font-mono truncate">
               {data.origin}
             </span>
           </div>
@@ -211,20 +210,20 @@ function BrandCard({ data, className = '', isHero = false }) {
           {/* Brand Name */}
           <h3
             className={`font-serif text-white group-hover:text-white transition-colors tracking-tight leading-none ${
-              isHero ? 'text-5xl md:text-7xl' : 'text-3xl md:text-4xl'
+              isHero ? 'text-4xl md:text-5xl lg:text-7xl' : 'text-xl sm:text-2xl md:text-3xl lg:text-4xl'
             }`}
           >
             {data.name}
           </h3>
 
           {/* Expandable footer */}
-          <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/10 group-hover:border-white/20 transition-colors">
-            <span className="text-[10px] uppercase tracking-widest text-white/30 group-hover:text-white/50 transition-colors">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-3 md:mt-4 pt-3 border-t border-white/10 group-hover:border-white/20 transition-colors gap-2">
+            <span className="text-[8px] md:text-[10px] uppercase tracking-widest text-white/30 group-hover:text-white/50 transition-colors">
               {data.count} Styles
             </span>
 
             <motion.div
-              className="flex items-center gap-2 text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              className="hidden sm:flex items-center gap-2 text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500"
               style={{ color: data.accent }}
             >
               <span>Explore</span>

@@ -129,10 +129,10 @@ export default function Hero() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
               >
-                <h1 className="text-7xl md:text-9xl font-black text-cream leading-[0.8] tracking-tighter mb-6 drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] uppercase">
+                <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] xl:text-9xl font-black text-cream leading-[0.85] md:leading-[0.8] tracking-tighter mb-4 md:mb-6 drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] uppercase">
                   {heroContent[currentImageIndex].title}
                 </h1>
-                <p className="text-cream/80 text-lg md:text-xl font-medium max-w-lg leading-relaxed border-l-2 border-gold/40 pl-6 bg-navy/20 backdrop-blur-sm py-2">
+                <p className="text-cream/90 text-base sm:text-lg md:text-xl font-medium max-w-lg leading-relaxed border-l-2 border-gold/40 pl-4 md:pl-6 bg-navy/20 backdrop-blur-md py-2">
                   {heroContent[currentImageIndex].description}
                 </p>
               </motion.div>
@@ -140,10 +140,10 @@ export default function Hero() {
           </motion.div>
 
           {/* ── CTAs ── */}
-          <motion.div variants={itemVariants} className="flex flex-wrap gap-6 pt-4">
+          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 md:gap-6 pt-4 w-full">
             <button
               data-cursor="DISCOVER"
-              className="relative group overflow-hidden bg-gold text-navy px-10 py-5 text-[11px] uppercase tracking-[0.2em] font-black transition-all duration-500 hover:shadow-[0_20px_40px_rgba(166,138,59,0.3)] hover:-translate-y-1"
+              className="relative group overflow-hidden bg-gold text-navy px-8 py-4 md:px-10 md:py-5 text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-black transition-all duration-500 hover:shadow-[0_20px_40px_rgba(166,138,59,0.3)] hover:-translate-y-1 w-full sm:w-auto text-center"
             >
               <span className="relative z-10 transition-colors duration-500 group-hover:text-cream">Explore Collection</span>
               <div className="absolute inset-0 bg-cream translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
@@ -151,7 +151,7 @@ export default function Hero() {
             <Link
               href="/try-on"
               data-cursor="VIRTUAL"
-              className="group border-2 border-cream/20 text-cream px-10 py-5 text-[11px] uppercase tracking-[0.2em] font-black hover:border-gold transition-all duration-500 flex items-center gap-3"
+              className="group border-2 border-cream/20 text-cream px-8 py-4 md:px-10 md:py-5 text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-black hover:border-gold transition-all duration-500 flex items-center justify-center gap-3 w-full sm:w-auto text-center"
             >
               Virtual Try-On
               <span className="w-2 h-2 rounded-full bg-gold group-hover:animate-pulse" />
@@ -160,16 +160,16 @@ export default function Hero() {
 
           {/* Stats Bar */}
           <motion.div variants={itemVariants}
-            className="flex items-center space-x-16 pt-10"
+            className="grid grid-cols-3 sm:flex sm:flex-wrap items-center gap-4 sm:gap-12 md:gap-16 pt-8 md:pt-10 w-full"
           >
             {[
               { num: '3.5k', label: 'Curated Frames' },
               { num: '24hr', label: 'Global Dispatch' },
               { num: '100%', label: 'Precision Fit' },
             ].map((s) => (
-              <div key={s.label} className="group cursor-default">
-                <span className="block text-2xl font-black text-cream group-hover:text-gold transition-colors duration-300">{s.num}</span>
-                <span className="text-[9px] uppercase tracking-[0.2em] text-gold/80 font-bold">{s.label}</span>
+              <div key={s.label} className="group cursor-default sm:w-auto text-center sm:text-left">
+                <span className="block text-xl sm:text-2xl font-black text-cream group-hover:text-gold transition-colors duration-300">{s.num}</span>
+                <span className="text-[8px] sm:text-[9px] uppercase tracking-[0.2em] text-gold/80 font-bold whitespace-nowrap">{s.label}</span>
               </div>
             ))}
           </motion.div>

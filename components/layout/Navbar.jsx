@@ -88,28 +88,28 @@ export default function Navbar() {
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center space-x-6">
+        <div className="flex items-center space-x-4 md:space-x-6">
           <button 
             onClick={() => setIsSearchOpen(true)}
-            className="transition-colors hidden md:block"
+            className="transition-colors hidden md:block hover:scale-110"
             style={{ color: '#D4AF37' }}
           >
             <Search size={22} className="stroke-[2.5px]" />
           </button>
           <button 
-            className="transition-colors relative"
+            className="transition-colors relative hover:scale-110"
             onClick={() => setIsCartOpen(true)}
             style={{ color: '#D4AF37' }}
           >
             <ShoppingCart size={22} className="stroke-[2.5px]" />
             {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-[#D4AF37] text-white text-[10px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center border border-white shadow-lg">
+              <span className="absolute -top-2 -right-2 bg-[#D4AF37] text-white text-[10px] font-black w-[18px] h-[18px] rounded-full flex items-center justify-center border border-navy shadow-lg">
                 {cartCount}
               </span>
             )}
           </button>
           <button 
-            className="hidden sm:block border-2 px-6 py-2.5 text-[10px] uppercase tracking-widest font-black transition-all duration-300"
+            className="hidden sm:block border-2 px-4 py-2 md:px-6 md:py-2.5 text-[9px] md:text-[10px] uppercase tracking-widest font-black transition-all duration-300 hover:bg-[#D4AF37] hover:text-navy"
             style={{ borderColor: '#D4AF37', color: '#D4AF37' }}
           >
             Book Eye Test
@@ -117,7 +117,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="lg:hidden"
+            className="lg:hidden hover:scale-110 transition-transform"
             onClick={() => setIsMobileMenuOpen(true)}
             style={{ color: '#D4AF37' }}
           >
@@ -130,16 +130,19 @@ export default function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-navy z-[60] flex flex-col p-8 border-l border-gold/10"
+            className="fixed inset-0 bg-navy z-[60] flex flex-col p-6 sm:p-8"
           >
-            <div className="flex justify-between items-center">
-              <span className="font-serif text-gold tracking-widest text-xl">VISIO</span>
-              <button onClick={() => setIsMobileMenuOpen(false)} className="text-gold">
-                <X size={32} />
+            <div className="flex justify-between items-center bg-navy pb-4 border-b border-gold/10">
+              <span className="font-serif text-gold tracking-[0.3em] font-black text-xl">EYELOVEYOU</span>
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)} 
+                className="text-gold p-2 bg-gold/10 rounded-full hover:bg-gold hover:text-navy transition-all"
+              >
+                <X size={24} strokeWidth={2.5} />
               </button>
             </div>
             <div className="mt-12 flex flex-col space-y-8">

@@ -84,12 +84,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-12 border-t border-gold/5 flex flex-col md:flex-row justify-between items-center gap-8">
-          <p className="text-[10px] text-cream/30 uppercase tracking-[0.2em]">
+        <div className="pt-12 border-t border-gold/5 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+          <p className="text-[10px] text-cream/30 uppercase tracking-[0.2em] w-full md:w-auto">
             © 2026 EYELOVEYOU Punjab Optical. All Rights Reserved.
           </p>
 
-          <div className="flex items-center space-x-8">
+          <div className="flex flex-wrap justify-center md:justify-end items-center gap-4 md:space-x-8 w-full md:w-auto">
             {['Visa', 'Mastercard', 'Easypaisa', 'JazzCash'].map((method) => (
               <span key={method} className="text-[9px] text-cream/20 uppercase tracking-widest font-bold">
                 {method}

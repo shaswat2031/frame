@@ -107,7 +107,7 @@ export default function BookingSection() {
                   exit={{ opacity: 0, x: -20 }}
                   className="grid grid-cols-1 md:grid-cols-2 gap-12"
                 >
-                  <div className="custom-calendar">
+                  <div className="custom-calendar flex justify-center lg:justify-start w-full overflow-hidden">
                     <DayPicker
                       mode="single"
                       selected={selectedDate}

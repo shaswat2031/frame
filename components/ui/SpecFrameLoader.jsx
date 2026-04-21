@@ -67,6 +67,7 @@ export default function SpecFrameLoader() {
     <AnimatePresence>
       {isVisible && (
         <motion.div
+          key="loader-overlay"
           ref={containerRef}
           initial={{ opacity: 1 }}
           exit={{
@@ -233,14 +234,16 @@ export default function SpecFrameLoader() {
 
                   {/* ── LENS REFLECTIONS (scanning highlight) ── */}
                   <motion.ellipse
+                    initial={{ cx: 120, opacity: 0.02 }}
                     cx="120" cy="72" rx="30" ry="18"
-                    fill="white" opacity="0.03"
+                    fill="white"
                     animate={{ cx: [100, 140, 100], opacity: [0.02, 0.06, 0.02] }}
                     transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                   />
                   <motion.ellipse
+                    initial={{ cx: 290, opacity: 0.02 }}
                     cx="290" cy="72" rx="28" ry="16"
-                    fill="white" opacity="0.03"
+                    fill="white"
                     animate={{ cx: [270, 310, 270], opacity: [0.02, 0.05, 0.02] }}
                     transition={{ duration: 3, delay: 0.5, repeat: Infinity, ease: 'easeInOut' }}
                   />
