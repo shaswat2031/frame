@@ -197,7 +197,7 @@ export default function ProductManagement() {
           ))}
         </select>
 
-        <div className="border border-gold/10 bg-navy-surface px-4 py-3 text-xs text-cream/50 flex items-center justify-between">
+        <div className="border border-gold/10 bg-navy-surface px-4 py-3 text-xs text-cream/70 flex items-center justify-between">
           <span>Loaded</span>
           <span className="text-gold font-mono">{isLoading ? '--' : products.length}</span>
         </div>
@@ -213,52 +213,96 @@ export default function ProductManagement() {
       <section className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
         {['ACTIVE', 'DRAFT', 'ARCHIVED'].map((item) => (
           <div key={item} className="border border-gold/10 bg-navy-surface px-3 py-2 flex items-center justify-between">
-            <span className="text-cream/50">{item}</span>
+            <span className="text-cream/70">{item}</span>
             <span className="text-gold font-mono">{statusSummary[item] || 0}</span>
           </div>
         ))}
       </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-        {products.map((product, i) => (
-          <motion.article
-            key={product.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.03 }}
-            className="group border border-gold/10 bg-navy-surface p-5"
-          >
-            <div className="flex justify-between items-start mb-4">
-              <div>
-                <p className="font-mono text-[10px] tracking-[0.2em] text-gold/80 uppercase">{product.category || 'Unassigned'}</p>
-                <h3 className="text-lg mt-1 group-hover:text-gold transition-colors">{product.name}</h3>
-                <p className="text-xs text-cream/40 mt-1">{product.sku}</p>
-                <p className="mt-2 inline-flex border border-gold/10 px-2 py-1 text-[9px] font-mono tracking-[0.2em] text-cream/50 uppercase">{product.brand || 'Unknown Brand'}</p>
-              </div>
-              <span className="text-[10px] text-cream/50 border border-gold/10 px-2 py-1">{product.status}</span>
-            </div>
-
-            <div className="space-y-2 text-sm mb-4">
-              <div className="flex items-center justify-between">
-                <span className="text-cream/50">Price</span>
-                <span className="text-gold">{formatCurrency(product.price)}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-cream/50">Stock</span>
-                <span className={product.stock <= 5 ? 'text-red-300' : 'text-cream'}>{product.stock ?? 0}</span>
-              </div>
-            </div>
-
-            <div className="flex gap-2 mt-auto">
-              <button onClick={() => openEdit(product)} disabled={isMock} className="flex-1 border border-gold/10 px-3 py-2 text-xs hover:border-gold/30 hover:text-gold transition-colors inline-flex items-center justify-center gap-2 disabled:opacity-40">
-                <Pencil className="w-3 h-3" /> Edit
-              </button>
-              <button onClick={() => deleteProduct(product.id)} disabled={isMock} className="border border-gold/10 px-3 py-2 text-xs hover:border-red-400/40 hover:text-red-300 transition-colors inline-flex items-center justify-center gap-2 disabled:opacity-40">
-                <Trash2 className="w-3 h-3" />
-              </button>
-            </div>
-          </motion.article>
-        ))}
+      <div className="bg-navy-surface border border-gold/5 overflow-hidden">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="border-b border-gold/10 font-mono text-[10px] tracking-[0.2em] text-cream/60 uppercase bg-navy/40">
+              <th className="p-6 font-normal">Asset</th>
+              <th className="p-6 font-normal">Status</th>
+              <th className="p-6 font-normal">Price</th>
+              <th className="p-6 font-normal">Stock</th>
+              <th className="p-6 font-normal text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gold/5">
+            {products.map((product, i) => {
+              const productId = product.id || product._id;
+              return (
+                <motion.tr
+                  key={productId}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: i * 0.02 }}
+                  className="group hover:bg-gold/[0.02] transition-colors"
+                >
+                  <td className="p-6">
+                    <div className="flex items-center gap-4">
+                      {product.image && (
+                        <div className="w-10 h-10 border border-gold/10 p-1 flex-shrink-0">
+                          <img src={product.image} className="w-full h-full object-contain" alt="" />
+                        </div>
+                      )}
+                      <div>
+                        <div className="text-[10px] font-mono tracking-[0.3em] text-gold font-medium uppercase">{product.category}</div>
+                        <div className="text-base text-cream font-semibold tracking-tight mt-1">{product.name}</div>
+                        <div className="text-[11px] text-cream/60 font-mono mt-1.5">{product.sku}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="p-6">
+                    <span className={`inline-flex items-center px-4 py-1 rounded-full text-[9px] font-mono font-bold tracking-[0.1em] uppercase border ${
+                      product.status === 'ACTIVE' 
+                        ? 'text-teal border-teal/30 bg-teal/5' 
+                        : 'text-cream/50 border-gold/10 bg-gold/5'
+                    }`}>
+                      {product.status}
+                    </span>
+                  </td>
+                  <td className="p-6 text-sm font-serif italic text-gold font-medium">
+                    {formatCurrency(product.price)}
+                  </td>
+                  <td className="p-6">
+                    <span className={`text-xs font-mono font-medium ${product.stock <= 5 ? 'text-red-400' : 'text-cream/80'}`}>
+                      {product.stock ?? 0}
+                    </span>
+                  </td>
+                  <td className="p-6 text-right">
+                    <div className="flex justify-end gap-2">
+                       <button 
+                         onClick={() => openEdit(product)} 
+                         disabled={isMock}
+                         className="p-2 border border-gold/10 text-gold/60 hover:text-gold hover:bg-gold/5 transition-all disabled:opacity-30"
+                       >
+                         <Pencil size={14} />
+                       </button>
+                       <button 
+                         onClick={() => deleteProduct(productId)} 
+                         disabled={isMock}
+                         className="p-2 border border-gold/10 text-cream/20 hover:text-red-400 hover:bg-red-950/20 transition-all disabled:opacity-30"
+                       >
+                         <Trash2 size={14} />
+                       </button>
+                    </div>
+                  </td>
+                </motion.tr>
+              );
+            })}
+            
+            {!isLoading && !products.length && (
+              <tr>
+                <td colSpan={5} className="p-12 text-center text-cream/20 font-mono text-[10px] tracking-widest uppercase">
+                  No assets found in vault
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
 
       <AnimatePresence>
@@ -336,8 +380,8 @@ export default function ProductManagement() {
 
                  <div className="grid grid-cols-3 gap-8">
                     <div className="space-y-2">
-                       <label className="font-mono text-[8px] tracking-[0.3em] text-gold uppercase">Price (USD)</label>
-                       <input type="number" value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} className="w-full bg-navy border border-gold/10 p-4 font-mono text-[10px] tracking-widest outline-none focus:border-gold/40 transition-all text-cream" placeholder="450" required min="0" />
+                        <label className="font-mono text-[8px] tracking-[0.3em] text-gold uppercase">Price (INR)</label>
+                        <input type="number" value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} className="w-full bg-navy border border-gold/10 p-4 font-mono text-[10px] tracking-widest outline-none focus:border-gold/40 transition-all text-cream" placeholder="12999" required min="0" />
                     </div>
                     <div className="space-y-2">
                        <label className="font-mono text-[8px] tracking-[0.3em] text-gold uppercase">Initial Stock</label>

@@ -27,11 +27,6 @@ export default function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [bannerHeight, setBannerHeight] = useState(0);
 
-  // Do not render navbar on admin pages
-  if (pathname?.startsWith('/admin')) {
-    return null;
-  }
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 80);
@@ -53,6 +48,11 @@ export default function Navbar() {
       observer.disconnect();
     };
   }, []);
+
+  // Do not render navbar on admin pages - moved AFTER hooks to follow Rules of Hooks
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <nav

@@ -16,9 +16,10 @@ export async function POST(req) {
     const client = await clientPromise;
     const db = client.db();
     const { items, total, addressId, paymentMethod } = await req.json();
+    const userId = session.user.id;
 
     const order = {
-      userId: new ObjectId(session.user.id),
+      userId: userId,
       items,
       total,
       addressId,
@@ -46,13 +47,25 @@ export async function GET(req) {
     const client = await clientPromise;
     const db = client.db();
     
+    // Recovery Logic: Find user by email to get canonical ID
+    const user = await db.collection("users").findOne({ email: session.user.email });
+    if (!user) return NextResponse.json([]); // No user, no orders
+
+    const userId = user._id;
+
     const orders = await db.collection('orders')
-      .find({ userId: new ObjectId(session.user.id) })
+      .find({ 
+        $or: [
+          { userId: userId.toString() },
+          { userId: userId }
+        ]
+      })
       .sort({ createdAt: -1 })
       .toArray();
 
     return NextResponse.json(orders);
   } catch (error) {
+    console.error("FETCH_ORDERS_ERROR", error);
     return NextResponse.json({ error: 'Failed to fetch orders' }, { status: 500 });
   }
 }

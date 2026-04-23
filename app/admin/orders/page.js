@@ -91,7 +91,7 @@ export default function OrderManagement() {
       <div className="bg-navy-surface border border-gold/5 overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-gold/10 font-mono text-[8px] tracking-[0.3em] text-cream/30 uppercase">
+            <tr className="border-b border-gold/10 font-mono text-[10px] tracking-[0.2em] text-cream/60 uppercase bg-navy/40">
               <th className="p-6 font-normal">Order</th>
               <th className="p-6 font-normal">Customer</th>
               <th className="p-6 font-normal">Payload</th>

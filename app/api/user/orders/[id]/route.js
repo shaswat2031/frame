@@ -17,9 +17,13 @@ export async function GET(req, { params }) {
     const client = await clientPromise;
     const db = client.db();
 
+    const userId = session.user.id;
     const order = await db.collection('orders').findOne({
       _id: new ObjectId(id),
-      userId: new ObjectId(session.user.id),
+      $or: [
+        { userId: userId },
+        { userId: new ObjectId(userId) }
+      ]
     });
 
     if (!order) {

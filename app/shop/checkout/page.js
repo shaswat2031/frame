@@ -40,14 +40,23 @@ export default function CheckoutPage() {
         body: JSON.stringify({ address: newAddress }),
       });
 
+      const data = await res.json();
+
       if (res.ok) {
         toast.success('Address Saved');
         await fetchAddresses();
         setShowAddressForm(false);
         setNewAddress({ label: '', street: '', city: '', state: '', zip: '', country: 'India', isDefault: false });
+      } else {
+        if (res.status === 401) {
+           toast.error('Session expired. Please login again.');
+           router.push('/login?callbackUrl=/shop/checkout');
+        } else {
+           toast.error(data.error || 'Failed to save address');
+        }
       }
     } catch (err) {
-      toast.error('Failed to save address');
+      toast.error('Connection failed. Please check your network.');
     } finally {
       setIsLoading(false);
     }
@@ -292,12 +301,12 @@ export default function CheckoutPage() {
                                </button>
                             ))}
                          </div>
-                         <button 
-                            onClick={handlePlaceOrder}
-                            className="w-full bg-gold text-navy py-5 font-mono text-[10px] font-black tracking-[0.4em] uppercase shadow-2xl"
-                         >
-                            Pay ₹{cartTotal.toLocaleString()}
-                         </button>
+                          <button 
+                             onClick={handlePlaceOrder}
+                             className="w-full bg-gold text-navy py-5 font-mono text-[10px] font-black tracking-[0.4em] uppercase shadow-2xl"
+                          >
+                             {cartTotal === 0 ? 'SUBMIT QUOTE REQUEST' : `Pay ₹${cartTotal.toLocaleString()}`}
+                          </button>
                       </motion.section>
                    )}
 
@@ -355,7 +364,9 @@ export default function CheckoutPage() {
                                <p className="text-sm font-serif italic text-cream leading-tight">{item.name}</p>
                                <p className="text-[10px] font-mono text-gold/40 uppercase mt-1">{item.quantity} UNIT</p>
                             </div>
-                            <p className="text-xs font-mono text-gold">₹{(item.price * item.quantity).toLocaleString()}</p>
+                             <p className="text-xs font-mono text-gold">
+                               {item.price === 0 ? 'QUOTE' : `₹${(item.price * item.quantity).toLocaleString()}`}
+                             </p>
                          </div>
                       ))}
                    </div>
@@ -363,7 +374,7 @@ export default function CheckoutPage() {
                    <div className="pt-8 border-t border-gold/10 space-y-2">
                       <div className="flex justify-between text-[10px] font-mono text-cream/40 uppercase tracking-widest">
                          <span>Subtotal</span>
-                         <span>₹{cartTotal.toLocaleString()}</span>
+                         <span>{cartTotal === 0 ? 'QUOTE' : `₹${cartTotal.toLocaleString()}`}</span>
                       </div>
                       <div className="flex justify-between text-[10px] font-mono text-cream/40 uppercase tracking-widest">
                          <span>GST (18%)</span>
@@ -373,10 +384,10 @@ export default function CheckoutPage() {
                          <span>Shipping</span>
                          <span className="text-teal">FREE</span>
                       </div>
-                      <div className="flex justify-between pt-4 text-xl font-serif italic text-gold">
-                         <span>Total</span>
-                         <span>₹{cartTotal.toLocaleString()}</span>
-                      </div>
+                       <div className="flex justify-between pt-4 text-xl font-serif italic text-gold">
+                          <span>Total</span>
+                          <span>{cartTotal === 0 ? 'TBD' : `₹${cartTotal.toLocaleString()}`}</span>
+                       </div>
                    </div>
                 </div>
              </div>

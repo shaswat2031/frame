@@ -26,7 +26,7 @@ export default function AdminSidebar() {
   return (
     <aside className="w-64 bg-navy-surface border-r border-gold/10 h-screen sticky top-0 flex flex-col pt-32 pb-8">
       <div className="px-8 mb-12">
-        <h2 className="text-[10px] font-mono tracking-[0.4em] text-gold uppercase opacity-50">Admin Interface</h2>
+        <h2 className="text-[10px] font-mono tracking-[0.4em] text-gold uppercase opacity-80">Admin Interface</h2>
         <h1 className="text-2xl font-light tracking-tighter text-cream mt-2">Mission Control</h1>
       </div>
 
@@ -38,7 +38,7 @@ export default function AdminSidebar() {
               key={item.id} 
               href={item.href}
               className={`flex items-center gap-4 px-4 py-4 transition-all duration-300 group relative ${
-                isActive ? 'text-gold' : 'text-cream/50 hover:text-cream'
+                isActive ? 'text-gold' : 'text-cream/70 hover:text-cream'
               }`}
             >
               {isActive && (
@@ -57,7 +57,7 @@ export default function AdminSidebar() {
       <div className="px-4 pt-8 border-t border-gold/5">
         <button 
           onClick={() => signOut({ callbackUrl: '/' })}
-          className="w-full flex items-center gap-4 px-4 py-4 text-cream/30 hover:text-red-400 transition-colors group"
+          className="w-full flex items-center gap-4 px-4 py-4 text-cream/50 hover:text-red-400 transition-colors group"
         >
           <LogOut className="w-5 h-5" />
           <span className="font-mono text-[11px] tracking-[0.2em] uppercase">Disconnect</span>

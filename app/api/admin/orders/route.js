@@ -28,13 +28,6 @@ export async function GET(request) {
     };
 
     const term = searchParams.get("q");
-    if (term) {
-      query.$or = [
-        containsFilter("orderNumber", term),
-        containsFilter("customerName", term),
-        containsFilter("customerEmail", term),
-      ];
-    }
 
     const pipeline = [
       { $match: query },
@@ -42,9 +35,14 @@ export async function GET(request) {
       { $skip: skip },
       { $limit: limit },
       {
+        $addFields: {
+          uid: { $toObjectId: "$userId" }
+        }
+      },
+      {
         $lookup: {
           from: "users",
-          localField: "userId",
+          localField: "uid",
           foreignField: "_id",
           as: "userDetails"
         }
@@ -67,7 +65,19 @@ export async function GET(request) {
       }
     ];
 
-    const [items, total] = await Promise.all([
+    if (term) {
+      pipeline.push({
+        $match: {
+          $or: [
+            { orderNumber: { $regex: term, $options: 'i' } },
+            { customerName: { $regex: term, $options: 'i' } },
+            { customerEmail: { $regex: term, $options: 'i' } }
+          ]
+        }
+      });
+    }
+
+    const [items, totalCountResult] = await Promise.all([
       db.collection("orders").aggregate(pipeline).toArray(),
       db.collection("orders").countDocuments(query),
     ]);
@@ -77,8 +87,8 @@ export async function GET(request) {
       pagination: {
         page,
         limit,
-        total,
-        totalPages: Math.max(1, Math.ceil(total / limit)),
+        total: totalCountResult,
+        totalPages: Math.max(1, Math.ceil(totalCountResult / limit)),
       },
     });
   } catch (error) {
