@@ -9,7 +9,7 @@ import {
   serializeList,
 } from "@/lib/admin/server";
 
-const VALID_STATUSES = ["PENDING", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED"];
+const VALID_STATUSES = ["confirmed", "PENDING", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED"];
 
 export async function GET(request) {
   const auth = await requireAdminSession();
@@ -36,23 +36,39 @@ export async function GET(request) {
       ];
     }
 
+    const pipeline = [
+      { $match: query },
+      { $sort: sort },
+      { $skip: skip },
+      { $limit: limit },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "userDetails"
+        }
+      },
+      {
+        $addFields: {
+          user: { $arrayElemAt: ["$userDetails", 0] }
+        }
+      },
+      {
+        $project: {
+          orderNumber: { $ifNull: ["$orderNumber", { $concat: ["#", { $substr: [{ $toString: "$_id" }, 18, 6] }] }] },
+          customerName: { $ifNull: ["$customerName", "$user.name", "Guest"] },
+          customerEmail: { $ifNull: ["$customerEmail", "$user.email", "N/A"] },
+          status: 1,
+          totalAmount: { $ifNull: ["$totalAmount", "$total", 0] },
+          itemCount: { $ifNull: ["$itemCount", { $size: { $ifNull: ["$items", []] } }] },
+          createdAt: 1,
+        }
+      }
+    ];
+
     const [items, total] = await Promise.all([
-      db.collection("orders")
-        .find(query, {
-          projection: {
-            orderNumber: 1,
-            customerName: 1,
-            customerEmail: 1,
-            status: 1,
-            totalAmount: 1,
-            itemCount: 1,
-            createdAt: 1,
-          },
-        })
-        .sort(sort)
-        .skip(skip)
-        .limit(limit)
-        .toArray(),
+      db.collection("orders").aggregate(pipeline).toArray(),
       db.collection("orders").countDocuments(query),
     ]);
 

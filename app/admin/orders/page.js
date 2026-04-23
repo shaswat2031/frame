@@ -7,6 +7,7 @@ import { useAdminResource } from '@/hooks/useAdminResource';
 import { adminFetch, formatCurrency, formatDate } from '@/lib/admin/client';
 
 const statusStyles = {
+  confirmed: 'text-teal border-teal/30 bg-teal/10',
   PENDING: 'text-gold border-gold/30 bg-gold/10',
   PROCESSING: 'text-blue-300 border-blue-300/30 bg-blue-300/10',
   SHIPPED: 'text-teal border-teal/30 bg-teal/10',
@@ -71,6 +72,7 @@ export default function OrderManagement() {
           className="bg-navy-surface border border-gold/10 px-3 py-3 text-sm outline-none focus:border-gold/30"
         >
           <option value="">All statuses</option>
+          <option value="confirmed">Confirmed</option>
           <option value="PENDING">Pending</option>
           <option value="PROCESSING">Processing</option>
           <option value="SHIPPED">Shipped</option>
@@ -128,6 +130,7 @@ export default function OrderManagement() {
                     disabled={updatingId === order.id}
                     className="bg-navy border border-gold/10 px-2 py-1 text-xs outline-none focus:border-gold/30 disabled:opacity-50"
                   >
+                    <option value="confirmed">Confirmed</option>
                     <option value="PENDING">Pending</option>
                     <option value="PROCESSING">Processing</option>
                     <option value="SHIPPED">Shipped</option>

@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { useCart } from '@/components/providers/CartProvider';
 import { useWishlist } from '@/components/providers/WishlistProvider';
 import SearchOverlay from '@/components/ui/SearchOverlay';
-import { Search, ShoppingCart, User, Menu, X, Heart } from 'lucide-react';
+import { Search, ShoppingCart, User, Menu, X, Heart, LogOut } from 'lucide-react';
 
 const navLinks = [
   { name: 'Shop', href: '/shop' },
@@ -17,6 +18,7 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const { data: session } = useSession();
   const { cartCount, setIsCartOpen } = useCart();
   const { wishlist } = useWishlist();
@@ -24,6 +26,11 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [bannerHeight, setBannerHeight] = useState(0);
+
+  // Do not render navbar on admin pages
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -95,18 +102,36 @@ export default function Navbar() {
         <div className="flex items-center space-x-3 sm:space-x-4 md:space-x-6 shrink-0">
           <button 
             onClick={() => setIsSearchOpen(true)}
-            className="transition-colors hover:scale-110"
-            style={{ color: '#D4AF37' }}
+            className="transition-colors hover:scale-110 text-gold"
           >
             <Search className="w-5 h-5 sm:w-[22px] sm:h-[22px] stroke-[2.5px]" />
           </button>
+          
+          {session?.user?.role === 'ADMIN' && (
+            <Link 
+              href="/admin" 
+              className="px-3 py-1.5 border border-gold/30 rounded-sm text-[9px] font-mono tracking-[0.2em] uppercase text-gold hover:bg-gold hover:text-navy transition-all hidden md:block"
+            >
+              Admin Portal
+            </Link>
+          )}
+
           <Link 
             href={session ? "/profile" : "/login"}
-            className="transition-colors hover:scale-110"
-            style={{ color: '#D4AF37' }}
+            className="transition-colors hover:scale-110 text-gold"
           >
             <User className="w-5 h-5 sm:w-[22px] sm:h-[22px] stroke-[2.5px]" />
           </Link>
+
+          {session && (
+            <button 
+              onClick={() => signOut({ callbackUrl: '/' })}
+              className="transition-colors hover:scale-110 text-gold hidden sm:block"
+              title="Logout"
+            >
+              <LogOut className="w-5 h-5 sm:w-[22px] sm:h-[22px] stroke-[2.5px]" />
+            </button>
+          )}
 
           <Link
             href="/wishlist"
