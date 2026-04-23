@@ -34,6 +34,8 @@ import CartProvider from '@/components/providers/CartProvider';
 import CartDrawer from '@/components/ui/CartDrawer';
 import BackgroundGlow from '@/components/ui/BackgroundGlow';
 
+import WishlistProvider from '@/components/providers/WishlistProvider';
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${cormorant.variable} ${inter.variable} ${playfair.variable}`}>
@@ -42,11 +44,12 @@ export default function RootLayout({ children }) {
         <SmoothScroll>
           <NextAuthProvider>
             <CartProvider>
-              <CustomCursor />
-              <ThemeToggle />
-              <CartDrawer />
-              <Navbar />
-              {children}
+              <WishlistProvider>
+                <ThemeToggle />
+                <CartDrawer />
+                <Navbar />
+                {children}
+              </WishlistProvider>
             </CartProvider>
           </NextAuthProvider>
         </SmoothScroll>

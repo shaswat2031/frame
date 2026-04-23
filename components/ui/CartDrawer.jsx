@@ -2,10 +2,24 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
 import { useCart } from '@/components/providers/CartProvider';
-import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 
 export default function CartDrawer() {
   const { cart, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, cartTotal } = useCart();
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  const handleCheckout = () => {
+    setIsCartOpen(false);
+    if (!session) {
+      toast.error('Please log in to continue checkout');
+      router.push('/login?callbackUrl=/shop/checkout');
+    } else {
+      router.push('/shop/checkout');
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -32,7 +46,7 @@ export default function CartDrawer() {
             <div className="p-6 border-b border-gold/10 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <ShoppingBag className="text-gold" size={20} />
-                <h2 className="text-xl font-serif text-cream tracking-wider">YOUR BAG</h2>
+                <h2 className="text-xl font-serif text-cream tracking-wider uppercase">My Bag</h2>
               </div>
               <button
                 onClick={() => setIsCartOpen(false)}
@@ -50,13 +64,13 @@ export default function CartDrawer() {
                     <ShoppingBag className="text-gold/20" size={32} />
                   </div>
                   <p className="text-cream/40 font-mono text-[10px] tracking-widest uppercase">
-                    Your archive is empty
+                    Your bag is empty
                   </p>
                   <button
                     onClick={() => setIsCartOpen(false)}
                     className="text-gold text-[10px] tracking-[0.3em] uppercase underline underline-offset-8"
                   >
-                    Return to Shop
+                    Back to Shop
                   </button>
                 </div>
               ) : (
@@ -68,9 +82,16 @@ export default function CartDrawer() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex gap-4 group"
                   >
-                    <div className="w-24 h-24 bg-navy-surface border border-gold/5 flex-shrink-0 relative overflow-hidden">
-                       {/* Placeholder for product image */}
-                       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80')] bg-cover bg-center grayscale opacity-50 group-hover:grayscale-0 transition-all duration-500" />
+                    <div className="w-24 h-24 bg-navy-surface border border-gold/5 flex-shrink-0 relative overflow-hidden group">
+                       {item.image ? (
+                          <img 
+                            src={item.image} 
+                            alt={item.name}
+                            className="w-full h-full object-contain p-2 group-hover:scale-110 transition-transform duration-500" 
+                          />
+                       ) : (
+                          <div className="w-full h-full flex items-center justify-center text-[8px] font-mono text-gold/20">NO_IMG</div>
+                       )}
                     </div>
                     <div className="flex-1 flex flex-col justify-between">
                       <div>
@@ -83,7 +104,7 @@ export default function CartDrawer() {
                             <Trash2 size={14} />
                           </button>
                         </div>
-                        <p className="text-teal text-[9px] tracking-widest uppercase mt-1">{item.brand || 'Visio'}</p>
+                        <p className="text-gold/60 text-[9px] tracking-widest uppercase mt-1">Brand: {item.brand || 'Luxury'}</p>
                       </div>
                       
                       <div className="flex items-center justify-between mt-2">
@@ -114,13 +135,12 @@ export default function CartDrawer() {
                 <p className="text-[10px] text-cream/30 italic text-center">
                   Shipping and taxes calculated at checkout
                 </p>
-                <Link
-                  href="/shop/checkout"
-                  onClick={() => setIsCartOpen(false)}
+                <button
+                  onClick={handleCheckout}
                   className="block w-full bg-gold text-navy text-center py-4 text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-white transition-colors duration-500"
                 >
-                  Confirm Selection
-                </Link>
+                  Checkout
+                </button>
               </div>
             )}
           </motion.div>

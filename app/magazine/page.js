@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 
@@ -273,17 +273,62 @@ export default function MagazinePage() {
   const totalPages = SHEETS.length * 2;
 
   const turnNext = () => {
-    if (currentFlip < SHEETS.length) setCurrentFlip(c => c + 1);
+    setCurrentFlip(c => (c < SHEETS.length ? c + 1 : c));
   };
 
   const turnPrev = () => {
-    if (currentFlip > 0) setCurrentFlip(c => c - 1);
+    setCurrentFlip(c => (c > 0 ? c - 1 : c));
   };
+
+  useEffect(() => {
+    let lastTime = 0;
+    let touchStartY = 0;
+    
+    const handleWheel = (e) => {
+      const now = Date.now();
+      if (now - lastTime < 1000) return;
+      
+      const scrollThreshold = 15; // Fairly sensitive
+      if (Math.abs(e.deltaY) > scrollThreshold) {
+         if (e.deltaY > 0) setCurrentFlip(c => (c < SHEETS.length ? c + 1 : c));
+         else setCurrentFlip(c => (c > 0 ? c - 1 : c));
+         lastTime = now;
+      }
+    };
+
+    const handleTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e) => {
+      const now = Date.now();
+      if (now - lastTime < 1000) return;
+      
+      const touchEndY = e.touches[0].clientY;
+      const deltaY = touchStartY - touchEndY;
+      
+      if (Math.abs(deltaY) > 30) {
+         if (deltaY > 0) setCurrentFlip(c => (c < SHEETS.length ? c + 1 : c));
+         else setCurrentFlip(c => (c > 0 ? c - 1 : c));
+         lastTime = now;
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, []);
 
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}
-      className="min-h-screen pt-32 pb-20 flex flex-col items-center overflow-hidden relative"
+      className="h-[100dvh] pt-24 lg:pt-32 pb-8 flex flex-col items-center overflow-hidden relative"
     >
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
@@ -291,33 +336,34 @@ export default function MagazinePage() {
       </div>
 
       {/* Section Header */}
-      <div className="text-center mb-12 relative z-10 px-6">
-        <div className="flex items-center justify-center gap-4 mb-4">
+      <div className="text-center mb-6 lg:mb-8 relative z-10 px-6 shrink-0">
+        <div className="flex items-center justify-center gap-4 mb-2 lg:mb-4">
           <div className="w-10 h-px bg-gold/30" />
           <span className="text-[9px] font-mono uppercase tracking-[0.5em] text-gold/50">The Lookbook</span>
           <div className="w-10 h-px bg-gold/30" />
         </div>
-        <h1 className="text-4xl md:text-6xl font-serif italic text-cream tracking-tight">
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-serif italic text-cream tracking-tight">
           Editorial Archives
         </h1>
-        <p className="text-cream/30 text-sm mt-3 max-w-md mx-auto">
+        <p className="hidden md:block text-cream/30 text-xs lg:text-sm mt-2 max-w-md mx-auto">
           A curated journal exploring the craft, science, and art behind luxury eyewear.
         </p>
       </div>
 
       {/* ── THE BOOK ── */}
       <div
-        className="relative w-full max-w-[950px] z-10 flex items-center justify-center px-6"
-        style={{ perspective: '2500px' }}
+        className="relative w-full flex-1 min-h-0 z-10 flex items-center justify-center px-2 sm:px-6"
+        style={{ perspective: '3000px' }}
       >
         {/* Drop shadow */}
         <div className="absolute bottom-[-16px] left-1/2 -translate-x-1/2 w-[60%] h-12 bg-black/25 blur-[25px] rounded-full pointer-events-none" />
 
         {/* Book Container */}
         <div
-          className="relative w-full flex"
+          className="relative w-full max-w-[1200px] flex shrink-0"
           style={{
             aspectRatio: '16 / 11',
+            maxHeight: '55vh',
             transformStyle: 'preserve-3d',
           }}
         >
@@ -379,11 +425,11 @@ export default function MagazinePage() {
       </div>
 
       {/* Navigation */}
-      <div className="mt-10 flex items-center justify-center gap-10 z-20 px-6">
+      <div className="mt-6 lg:mt-8 flex items-center justify-center gap-6 lg:gap-10 z-20 px-6 shrink-0">
         <button
           onClick={turnPrev}
           disabled={currentFlip === 0}
-          className="font-mono text-[10px] tracking-[0.3em] uppercase text-cream/50 hover:text-gold transition-colors disabled:opacity-15 disabled:cursor-not-allowed px-3 py-2"
+          className="font-mono text-[9px] lg:text-[10px] tracking-[0.3em] uppercase text-cream/50 hover:text-gold transition-colors disabled:opacity-15 disabled:cursor-not-allowed px-3 py-2"
         >
           ← Prev
         </button>
@@ -408,14 +454,14 @@ export default function MagazinePage() {
         <button
           onClick={turnNext}
           disabled={currentFlip === SHEETS.length}
-          className="font-mono text-[10px] tracking-[0.3em] uppercase text-cream/50 hover:text-gold transition-colors disabled:opacity-15 disabled:cursor-not-allowed px-3 py-2"
+          className="font-mono text-[9px] lg:text-[10px] tracking-[0.3em] uppercase text-cream/50 hover:text-gold transition-colors disabled:opacity-15 disabled:cursor-not-allowed px-3 py-2"
         >
           Next →
         </button>
       </div>
 
       {/* Page Counter */}
-      <div className="mt-3 font-mono text-[9px] tracking-[0.3em] text-cream/20 uppercase">
+      <div className="mt-2 font-mono text-[8px] lg:text-[9px] tracking-[0.3em] text-cream/20 uppercase shrink-0">
         {currentFlip === 0 ? 'Cover' : currentFlip >= SHEETS.length ? 'Back Cover' : `Page ${currentFlip * 2 - 1}–${currentFlip * 2}`} of {totalPages - 2}
       </div>
 
@@ -427,9 +473,9 @@ export default function MagazinePage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ delay: 2.5 }}
-            className="mt-3 font-mono text-[8px] tracking-[0.2em] text-cream/15 uppercase text-center"
+            className="absolute bottom-2 font-mono text-[7px] tracking-[0.2em] text-cream/15 uppercase text-center"
           >
-            Click on pages or use controls to browse
+            Click or scroll to flip
           </motion.p>
         )}
       </AnimatePresence>

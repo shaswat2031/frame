@@ -62,7 +62,7 @@
 
 @layer utilities {
   .text-gold-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-gold via-gold-light to-gold-muted;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-gold via-gold-light to-gold;
   }
 
   .glass-nav {
@@ -127,8 +127,8 @@ html.lenis {
   pointer-events: none;
 }
 
-/* Custom Cursor Styles */
-.custom-cursor {
+/* Custom Cursor Styles - DISABLED */
+/* .custom-cursor {
   pointer-events: none;
   position: fixed;
   top: 0;
@@ -138,7 +138,7 @@ html.lenis {
 
 body, a, button, [role="button"] {
   cursor: none !important;
-}
+} */
 
 /* Lens Flare Base */
 .lens-flare-overlay {

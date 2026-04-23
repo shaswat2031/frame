@@ -1,10 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, ShoppingCart, User, Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { useCart } from '@/components/providers/CartProvider';
+import { useWishlist } from '@/components/providers/WishlistProvider';
 import SearchOverlay from '@/components/ui/SearchOverlay';
+import { Search, ShoppingCart, User, Menu, X, Heart } from 'lucide-react';
 
 const navLinks = [
   { name: 'Shop', href: '/shop' },
@@ -15,7 +17,9 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const { data: session } = useSession();
   const { cartCount, setIsCartOpen } = useCart();
+  const { wishlist } = useWishlist();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -52,14 +56,14 @@ export default function Navbar() {
       
       <div className="container mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex flex-col group relative">
+        <Link href="/" className="flex flex-col group relative z-10 shrink-0">
           <motion.span 
-            className="text-2xl font-serif tracking-[0.4em] font-black leading-none transition-colors"
+            className="text-lg sm:text-2xl font-serif tracking-[0.2em] sm:tracking-[0.4em] font-black leading-none transition-colors"
             style={{ color: '#D4AF37' }}
           >
             EYELOVEYOU
           </motion.span>
-          <div className="flex items-center gap-2 mt-1.5">
+          <div className="hidden sm:flex items-center gap-2 mt-1.5">
             <span className="h-px w-4" style={{ backgroundColor: '#D4AF37' }} />
             <span className="text-[8px] uppercase tracking-[0.3em] font-black font-mono" style={{ color: '#D4AF37', opacity: 0.7 }}>
               Punjab Optical · Est. 1987
@@ -88,40 +92,56 @@ export default function Navbar() {
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center space-x-4 md:space-x-6">
+        <div className="flex items-center space-x-3 sm:space-x-4 md:space-x-6 shrink-0">
           <button 
             onClick={() => setIsSearchOpen(true)}
-            className="transition-colors hidden md:block hover:scale-110"
+            className="transition-colors hover:scale-110"
             style={{ color: '#D4AF37' }}
           >
-            <Search size={22} className="stroke-[2.5px]" />
+            <Search className="w-5 h-5 sm:w-[22px] sm:h-[22px] stroke-[2.5px]" />
           </button>
+          <Link 
+            href={session ? "/profile" : "/login"}
+            className="transition-colors hover:scale-110"
+            style={{ color: '#D4AF37' }}
+          >
+            <User className="w-5 h-5 sm:w-[22px] sm:h-[22px] stroke-[2.5px]" />
+          </Link>
+
+          <Link
+            href="/wishlist"
+            className="transition-colors relative hover:scale-110 hidden sm:block"
+            style={{ color: '#D4AF37' }}
+          >
+            <Heart className="w-5 h-5 sm:w-[22px] sm:h-[22px] stroke-[2.5px]" />
+            {wishlist.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-[8px] font-black w-[12px] h-[12px] rounded-full flex items-center justify-center border border-navy">
+                {wishlist.length}
+              </span>
+            )}
+          </Link>
+
           <button 
             className="transition-colors relative hover:scale-110"
             onClick={() => setIsCartOpen(true)}
             style={{ color: '#D4AF37' }}
           >
-            <ShoppingCart size={22} className="stroke-[2.5px]" />
+            <ShoppingCart className="w-5 h-5 sm:w-[22px] sm:h-[22px] stroke-[2.5px]" />
             {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-[#D4AF37] text-white text-[10px] font-black w-[18px] h-[18px] rounded-full flex items-center justify-center border border-navy shadow-lg">
+              <span className="absolute -top-2 -right-2 bg-[#D4AF37] text-white text-[10px] font-black w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] rounded-full flex items-center justify-center border border-navy shadow-lg">
                 {cartCount}
               </span>
             )}
           </button>
-          <button 
-            className="hidden sm:block border-2 px-4 py-2 md:px-6 md:py-2.5 text-[9px] md:text-[10px] uppercase tracking-widest font-black transition-all duration-300 hover:bg-[#D4AF37] hover:text-navy"
-            style={{ borderColor: '#D4AF37', color: '#D4AF37' }}
-          >
-            Book Eye Test
-          </button>
+
 
           {/* Mobile Menu Toggle */}
           <button
-            className="lg:hidden hover:scale-110 transition-transform"
+            className="lg:hidden hover:scale-110 transition-transform ml-1"
             onClick={() => setIsMobileMenuOpen(true)}
             style={{ color: '#D4AF37' }}
           >
-            <Menu size={28} />
+            <Menu className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.5px]" />
           </button>
         </div>
       </div>
@@ -137,7 +157,7 @@ export default function Navbar() {
             className="fixed inset-0 bg-navy z-[60] flex flex-col p-6 sm:p-8"
           >
             <div className="flex justify-between items-center bg-navy pb-4 border-b border-gold/10">
-              <span className="font-serif text-gold tracking-[0.3em] font-black text-xl">EYELOVEYOU</span>
+              <span className="font-serif text-gold tracking-[0.2em] sm:tracking-[0.3em] font-black text-lg sm:text-xl">EYELOVEYOU</span>
               <button 
                 onClick={() => setIsMobileMenuOpen(false)} 
                 className="text-gold p-2 bg-gold/10 rounded-full hover:bg-gold hover:text-navy transition-all"
@@ -157,11 +177,7 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
-              <div className="pt-8 border-t border-gold/20">
-                <button className="w-full border-2 border-gold py-4 text-gold font-black uppercase tracking-widest text-sm shadow-xl">
-                  Book Eye Test
-                </button>
-              </div>
+
             </div>
           </motion.div>
         )}

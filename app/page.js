@@ -1,3 +1,4 @@
+import { getProductsDB } from '@/lib/feed';
 import Footer from '@/components/layout/Footer';
 import Hero from '@/components/sections/Hero';
 import BrandMarquee from '@/components/sections/BrandMarquee';
@@ -8,7 +9,12 @@ import AboutStrip from '@/components/sections/AboutStrip';
 import BookingSection from '@/components/sections/BookingSection';
 import SpecFrameLoader from '@/components/ui/SpecFrameLoader';
 
-export default function Home() {
+export default async function Home() {
+  const products = await getProductsDB();
+  const featuredProducts = products.filter(p => p.featured).slice(0, 6);
+  // If no products are marked featured, just take the first 6
+  const displayProducts = featuredProducts.length > 0 ? featuredProducts : products.slice(0, 6);
+
   return (
     <main className="min-h-screen bg-navy transition-colors duration-500">
       <SpecFrameLoader />
@@ -20,7 +26,7 @@ export default function Home() {
 
       <BrandMarquee />
       <BrandShowcase />
-      <FeaturedFrames />
+      <FeaturedFrames initialProducts={displayProducts} />
       <Magazine />
 
       {/* Premium Booking Widget replaces static contact */}

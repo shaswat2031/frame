@@ -7,7 +7,7 @@ import Link from 'next/link'
 const MESSAGES = [
   { text: 'Free Eye Test with Every Frame Purchase', cta: 'Book Now', href: '#booking' },
   { text: 'New Arrivals: Tom Ford · Cartier · Prada', cta: 'Shop Now', href: '#shop' },
-  { text: 'Free Home Delivery on Orders Above Rs. 5,000', cta: 'Explore', href: '#frames' },
+  { text: 'Free Home Delivery on Orders Above ₹ 5,000', cta: 'Explore', href: '#frames' },
 ]
 
 export default function TopBanner() {

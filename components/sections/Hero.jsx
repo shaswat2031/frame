@@ -96,6 +96,7 @@ export default function Hero() {
               alt="Premium Luxury Eyewear Background"
               fill
               priority
+              sizes="100vw"
               className="object-cover object-center"
             />
           </motion.div>
@@ -211,6 +212,7 @@ export default function Hero() {
                   src={heroImages[currentImageIndex]}
                   alt="Eyewear Portrait"
                   fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                 />
               </motion.div>

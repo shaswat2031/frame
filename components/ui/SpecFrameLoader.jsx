@@ -15,7 +15,6 @@ export default function SpecFrameLoader() {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
-  const containerRef = useRef(null);
 
   // Physics-based spring for buttery smooth progress bar
   const rawProgress = useMotionValue(0);
@@ -68,7 +67,6 @@ export default function SpecFrameLoader() {
       {isVisible && (
         <motion.div
           key="loader-overlay"
-          ref={containerRef}
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,

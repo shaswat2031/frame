@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
 import { ensureAdminIndexes } from "@/lib/admin/indexes";
-import { getMockProducts } from "@/lib/mock-feed";
+import { getProducts } from "@/lib/feed";
 import {
   asDate,
   containsFilter,
@@ -18,79 +18,45 @@ export async function GET(request) {
   if (!auth.ok) return auth.response;
 
   try {
-    const db = await getDb();
-    await ensureAdminIndexes(db);
     const { searchParams } = new URL(request.url);
-    const { page, limit, skip } = parsePagination(searchParams, { defaultLimit: 12, maxLimit: 60 });
-    const sort = parseSort(searchParams, ["createdAt", "updatedAt", "name", "stock", "price"], { updatedAt: -1 });
+    const pagination = parsePagination(searchParams);
+    const sort = parseSort(searchParams, "createdAt", "desc");
+    
+    const db = await getDb();
+    const query = {};
 
-    const query = {
-      ...containsFilter("name", searchParams.get("q")),
-    };
-
-    const category = searchParams.get("category");
-    if (category) {
-      query.category = category;
-    }
-
-    const brand = searchParams.get("brand");
-    if (brand) {
-      query.brand = brand;
-    }
-
+    // Basic filtering
     const status = searchParams.get("status");
     if (status && VALID_STATUSES.includes(status)) {
       query.status = status;
     }
 
+    const search = searchParams.get("search");
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { sku: { $regex: search, $options: "i" } },
+        { brand: { $regex: search, $options: "i" } },
+      ];
+    }
+
     const [items, total] = await Promise.all([
       db.collection("products")
-        .find(query, {
-          projection: {
-            name: 1,
-            slug: 1,
-            sku: 1,
-            price: 1,
-            brand: 1,
-            category: 1,
-            brandSlug: 1,
-            categorySlug: 1,
-            stock: 1,
-            status: 1,
-            image: 1,
-            description: 1,
-            updatedAt: 1,
-            createdAt: 1,
-            featured: 1,
-          },
-        })
+        .find(query)
         .sort(sort)
-        .skip(skip)
-        .limit(limit)
+        .skip(pagination.skip)
+        .limit(pagination.limit)
         .toArray(),
       db.collection("products").countDocuments(query),
     ]);
-
-    if (!total && !searchParams.get("q") && !searchParams.get("category") && !searchParams.get("brand") && !searchParams.get("status")) {
-      return NextResponse.json({
-        items: getMockProducts(),
-        pagination: {
-          page,
-          limit,
-          total: getMockProducts().length,
-          totalPages: 1,
-        },
-        isMock: true,
-      });
-    }
-
+    
     return NextResponse.json({
-      items: serializeList(items),
+      items,
       pagination: {
-        page,
-        limit,
+        page: pagination.page,
+        limit: pagination.limit,
         total,
-        totalPages: Math.max(1, Math.ceil(total / limit)),
+        totalPages: Math.ceil(total / pagination.limit),
       },
     });
   } catch (error) {
@@ -98,6 +64,7 @@ export async function GET(request) {
     return NextResponse.json({ error: "Failed to load products" }, { status: 500 });
   }
 }
+
 
 export async function POST(request) {
   const auth = await requireAdminSession();

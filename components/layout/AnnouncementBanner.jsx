@@ -5,7 +5,7 @@ import { X } from 'lucide-react'
 const BANNER_ITEMS = [
   { icon: '✦', text: 'Free Eye Test with Every Frame Purchase', cta: 'Book Now', href: '#booking' },
   { icon: '◆', text: 'New Arrivals: Tom Ford · Cartier · Prada · Gucci', cta: 'Shop Now', href: '#shop' },
-  { icon: '✦', text: 'Free Home Delivery on Orders Above Rs. 5,000', cta: 'Explore', href: '#frames' },
+  { icon: '✦', text: 'Free Home Delivery on Orders Above ₹ 5,000', cta: 'Explore', href: '#frames' },
   { icon: '◆', text: 'MediaPipe AR Virtual Try-On — Try Any Frame Instantly', cta: 'Try Now', href: '#tryon' },
   { icon: '✦', text: 'Official Stockist: Ray-Ban · Oakley · Silhouette · Lindberg', cta: null, href: null },
   { icon: '◆', text: '30-Day Hassle-Free Returns · 1 Year International Warranty', cta: null, href: null },
